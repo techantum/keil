@@ -1,34 +1,26 @@
 module.exports = {
   apps: [
     {
-      name: "kk-engineering",
-      script: "node_modules/next/dist/bin/next",
-      args: "start -p 8142",
-      cwd: "/www/wwwroot/kkengineering",
+      name: "keil",
+      script: "node_modules/.bin/next",
+      args: "start --port 6001",
+      cwd: "/var/www/keil",
       instances: 1,
       exec_mode: "fork",
       watch: false,
       max_memory_restart: "500M",
       env: {
         NODE_ENV: "production",
-        PORT: 1023,
+        PORT: 6001,
         ADMIN_USERNAME: "admin",
         ADMIN_PASSWORD: "admin123",
+        SUPER_ADMIN_USERNAME: "superadmin",
+        SUPER_ADMIN_PASSWORD: "superadmin123",
         SESSION_SECRET:
-          "your-secret-key-change-in-production-kkengineering-2024",
-        MONGODB_URI:
-          "mongodb+srv://kkengineering:KKEngg%40123@kkengineering.fz1z9yb.mongodb.net/kkengineering?retryWrites=true&w=majority",
-        USE_MONGODB: "true",
-        // NEXT_PUBLIC_SITE_URL: "http://31.97.224.169:8142",
-
-        // Gmail SMTP (Working) - Sends FROM sales@kkengineeringpharma.com
-        SMTP_HOST: "smtp.gmail.com",
-        SMTP_PORT: "587",
-        SMTP_USER: "sudheer@sjmedialabs.com",
-        SMTP_PASS: "mjoicoozoifsutnu",
+          "94f47818e43d49c8e07fcbd373e0ee6ab10407da8abcab0017065146d461ed29",
       },
-      error_file: "/www/wwwroot/kkengineering/logs/err.log",
-      out_file: "/www/wwwroot/kkengineering/logs/out.log",
+      error_file: "/var/www/keil/logs/err.log",
+      out_file: "/var/www/keil/logs/out.log",
       log_date_format: "YYYY-MM-DD HH:mm:ss Z",
       merge_logs: true,
     },
