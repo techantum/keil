@@ -132,35 +132,35 @@ export function mergeContactContent(data: Partial<ContactPageContent> | null | u
 
 export function mergeFooterContent(data: Partial<FooterContent> | null | undefined): FooterContent {
   const defaults = defaultFooterContent();
-  if (!data) return defaults;
+  if (!data || typeof data !== "object") return defaults;
 
   return {
+    ...defaults,
+    ...data,
     id: data.id || defaults.id,
     settings: { ...defaults.settings, ...data.settings },
     productLinksSection: { ...defaults.productLinksSection, ...data.productLinksSection },
     aboutLinksSection: { ...defaults.aboutLinksSection, ...data.aboutLinksSection },
+    resourcesLinksSection: { ...defaults.resourcesLinksSection, ...data.resourcesLinksSection },
     newsletterSection: { ...defaults.newsletterSection, ...data.newsletterSection },
     contactSection: { ...defaults.contactSection, ...data.contactSection },
     socialSection: { ...defaults.socialSection, ...data.socialSection },
-    logo: data.logo || defaults.logo,
-    productLinks: data.productLinks?.length ? data.productLinks : defaults.productLinks,
-    aboutLinks: data.aboutLinks?.length ? data.aboutLinks : defaults.aboutLinks,
+    logo: data.logo ?? defaults.logo,
+    productLinks: Array.isArray(data.productLinks) ? data.productLinks : defaults.productLinks,
+    aboutLinks: Array.isArray(data.aboutLinks) ? data.aboutLinks : defaults.aboutLinks,
+    resourcesLinks: Array.isArray(data.resourcesLinks) ? data.resourcesLinks : defaults.resourcesLinks,
+    legalLinks: Array.isArray(data.legalLinks) ? data.legalLinks : defaults.legalLinks,
     newsletter: {
       ...defaults.newsletter,
       ...data.newsletter,
-      heading: pickString(data.newsletter?.heading, defaults.newsletter.heading),
-      placeholder: pickString(data.newsletter?.placeholder, defaults.newsletter.placeholder),
     },
     contact: {
       ...defaults.contact,
       ...data.contact,
-      location: pickString(data.contact?.location, defaults.contact.location),
-      phone: pickString(data.contact?.phone, defaults.contact.phone),
-      email: pickString(data.contact?.email, defaults.contact.email),
     },
     socialMedia: { ...defaults.socialMedia, ...data.socialMedia },
-    copyright: pickString(data.copyright, defaults.copyright),
-    companyInfo: pickString(data.companyInfo, defaults.companyInfo),
+    copyright: data.copyright ?? defaults.copyright,
+    companyInfo: data.companyInfo ?? defaults.companyInfo,
     updatedAt: data.updatedAt ?? defaults.updatedAt,
   };
 }

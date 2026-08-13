@@ -24,7 +24,10 @@ export function LandingPageView({
         <main>
           <LandingPageRenderer page={page} />
         </main>
-        <Footer logoOverride={page.branding?.footerLogo || undefined} />
+        <Footer
+          content={page.footer}
+          logoOverride={page.branding?.footerLogo || undefined}
+        />
         <WhatsAppButton />
       </ConsultationProvider>
     </LandingBrandScope>

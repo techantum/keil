@@ -27,6 +27,7 @@ import {
   DEFAULT_LANDING_REDIRECT,
   LANDING_CTA_ACTIONS,
 } from "@/types/landing-page";
+import { mergeFooterContent } from "@/lib/cms/merge-content";
 
 const SECTION_TYPES: LandingSectionType[] = [
   "hero",
@@ -79,6 +80,7 @@ export default function EditLandingPageAdmin() {
           ...data,
           redirect: data.redirect || DEFAULT_LANDING_REDIRECT,
           branding: { ...DEFAULT_LANDING_BRANDING, ...(data.branding || {}) },
+          footer: data.footer ? mergeFooterContent(data.footer) : undefined,
         });
         const first = data.sections?.[0]?.id;
         if (first) setOpenSections({ [first]: true });
@@ -114,13 +116,19 @@ export default function EditLandingPageAdmin() {
           sections: payload.sections,
           seo: payload.seo,
           branding: payload.branding || DEFAULT_LANDING_BRANDING,
+          footer: payload.footer,
           status: payload.status,
           redirect: payload.redirect || DEFAULT_LANDING_REDIRECT,
         }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Save failed");
-      setPage(data);
+      setPage({
+        ...data,
+        redirect: data.redirect || DEFAULT_LANDING_REDIRECT,
+        branding: { ...DEFAULT_LANDING_BRANDING, ...(data.branding || {}) },
+        footer: data.footer ? mergeFooterContent(data.footer) : payload.footer,
+      });
       success(toastMsg || "Landing page saved");
       return data as LandingPage;
     } catch (err) {
@@ -508,7 +516,10 @@ export default function EditLandingPageAdmin() {
         </div>
       </div>
 
-      <LandingFooterEditor />
+      <LandingFooterEditor
+        content={page.footer}
+        onChange={(footer) => patch({ footer })}
+      />
 
       <div className="lp-card-row">
         <div className="lp-panel">

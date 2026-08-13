@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Facebook, Linkedin, Youtube, Instagram, Mail, Phone, MapPin } from "lucide-react";
 import type { FooterContent, Settings } from "@/types";
 import { defaultFooterContent, defaultPublicSettings } from "@/lib/content/default-content";
+import { mergeFooterContent } from "@/lib/content/merge-content";
 import { isSectionEnabled } from "@/lib/cms/section-utils";
 import { ContentHeading } from "@/components/common/content-heading";
 
@@ -17,67 +18,41 @@ const XIcon = () => (
   </svg>
 );
 
-export function Footer({ logoOverride }: { logoOverride?: string } = {}) {
-  const [footer, setFooter] = useState<FooterContent>(DEFAULT_FOOTER);
+export function Footer({
+  logoOverride,
+  content,
+}: {
+  logoOverride?: string;
+  content?: FooterContent | null;
+} = {}) {
+  const [footer, setFooter] = useState<FooterContent>(
+    content ? mergeFooterContent(content) : DEFAULT_FOOTER,
+  );
   const [company, setCompany] = useState<Settings["company"]>(DEFAULT_COMPANY);
 
   useEffect(() => {
-    Promise.all([
-      fetch("/api/content/footer").then((res) => res.json()),
-      fetch("/api/settings").then((res) => res.json()),
-    ])
-      .then(([footerData, settingsData]) => {
-        if (footerData && !footerData.error) {
-          setFooter({
-            ...DEFAULT_FOOTER,
-            ...footerData,
-            settings: { ...DEFAULT_FOOTER.settings, ...footerData.settings },
-            productLinksSection: {
-              ...DEFAULT_FOOTER.productLinksSection,
-              ...footerData.productLinksSection,
-            },
-            aboutLinksSection: {
-              ...DEFAULT_FOOTER.aboutLinksSection,
-              ...footerData.aboutLinksSection,
-            },
-            resourcesLinksSection: {
-              ...DEFAULT_FOOTER.resourcesLinksSection,
-              ...footerData.resourcesLinksSection,
-            },
-            newsletterSection: {
-              ...DEFAULT_FOOTER.newsletterSection,
-              ...footerData.newsletterSection,
-            },
-            contactSection: {
-              ...DEFAULT_FOOTER.contactSection,
-              ...footerData.contactSection,
-            },
-            socialSection: {
-              ...DEFAULT_FOOTER.socialSection,
-              ...footerData.socialSection,
-            },
-            productLinks: footerData.productLinks?.length
-              ? footerData.productLinks
-              : DEFAULT_FOOTER.productLinks,
-            aboutLinks: footerData.aboutLinks?.length
-              ? footerData.aboutLinks
-              : DEFAULT_FOOTER.aboutLinks,
-            resourcesLinks: footerData.resourcesLinks?.length
-              ? footerData.resourcesLinks
-              : DEFAULT_FOOTER.resourcesLinks,
-            legalLinks: footerData.legalLinks?.length
-              ? footerData.legalLinks
-              : DEFAULT_FOOTER.legalLinks,
-            copyright: footerData.copyright || DEFAULT_FOOTER.copyright,
-            companyInfo: footerData.companyInfo || DEFAULT_FOOTER.companyInfo,
-            contact: { ...DEFAULT_FOOTER.contact, ...footerData.contact },
-            socialMedia: { ...DEFAULT_FOOTER.socialMedia, ...footerData.socialMedia },
-          });
-        }
+    if (content) {
+      setFooter(mergeFooterContent(content));
+    }
+
+    fetch("/api/settings", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((settingsData) => {
         if (settingsData?.company) setCompany(settingsData.company);
       })
       .catch(() => undefined);
-  }, []);
+
+    if (content) return;
+
+    fetch("/api/content/footer", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((footerData) => {
+        if (footerData && !footerData.error) {
+          setFooter(mergeFooterContent(footerData));
+        }
+      })
+      .catch(() => undefined);
+  }, [content]);
 
   const productLinks = footer.productLinks?.filter((l) => l.name && l.href) ?? [];
   const aboutLinks = footer.aboutLinks?.filter((l) => l.name && l.href) ?? [];

@@ -1,43 +1,52 @@
 "use client";
 
-import { Loader2, Save } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { FooterCmsForm } from "@/components/admin/cms/footer-form";
-import { useCmsPage } from "@/hooks/use-cms-page";
 import { mergeFooterContent } from "@/lib/cms/merge-content";
 import type { FooterContent } from "@/types";
 
-export function LandingFooterEditor() {
-  const { content, setContent, loading, saving, save } = useCmsPage<FooterContent>(
-    "/api/admin/content/footer",
-    mergeFooterContent,
-  );
+export function LandingFooterEditor({
+  content,
+  onChange,
+}: {
+  content?: FooterContent;
+  onChange: (content: FooterContent) => void;
+}) {
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  useEffect(() => {
+    if (content) return;
+    let cancelled = false;
+    fetch("/api/admin/content/footer", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled) return;
+        onChangeRef.current(mergeFooterContent(data && !data.error ? data : {}));
+      })
+      .catch(() => {
+        if (!cancelled) onChangeRef.current(mergeFooterContent({}));
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [content]);
 
   return (
     <div className="lp-panel mb-3">
-      <div className="lp-panel-head flex flex-wrap items-center justify-between gap-2">
+      <div className="lp-panel-head">
         <div>
-          <h3>Site footer</h3>
+          <h3>Landing page footer</h3>
           <p className="lp-hint mt-0.5">
-            Shared across the website and this landing page. Save footer separately from the landing page.
+            Unique to this landing page. Use the landing page Save button to publish footer changes.
           </p>
         </div>
-        <button
-          type="button"
-          className="lp-btn lp-btn-save"
-          onClick={() => save()}
-          disabled={saving || loading || !content}
-        >
-          {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
-          Save footer
-        </button>
       </div>
       <div className="lp-panel-body">
-        {loading || !content ? (
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <Loader2 className="h-3.5 w-3.5 animate-spin" /> Loading footer...
-          </div>
+        {content ? (
+          <FooterCmsForm content={content} onChange={onChange} />
         ) : (
-          <FooterCmsForm content={content} onChange={setContent} />
+          <p className="lp-hint">Loading footer...</p>
         )}
       </div>
     </div>

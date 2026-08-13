@@ -760,8 +760,16 @@ class PostgresRepository implements IDataRepository {
       "SELECT data FROM content_blocks WHERE type = $1",
       [type],
     );
-    if (result.rows[0]?.data) {
-      return result.rows[0].data;
+    const raw = result.rows[0]?.data;
+    if (raw) {
+      if (typeof raw === "string") {
+        try {
+          return JSON.parse(raw) as T;
+        } catch {
+          return fallback;
+        }
+      }
+      return raw;
     }
 
     await query(

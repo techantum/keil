@@ -36,6 +36,14 @@ const nextConfig = {
         source: "/lp/:path*",
         headers: noStoreHeaders,
       },
+      {
+        source: "/api/content/:path*",
+        headers: noStoreHeaders,
+      },
+      {
+        source: "/api/settings",
+        headers: noStoreHeaders,
+      },
     ];
   },
 };

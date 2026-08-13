@@ -15,6 +15,8 @@ import {
   DEFAULT_LANDING_REDIRECT,
 } from "@/types/landing-page";
 import { buildRedirectRules } from "@/lib/landing-pages/nav";
+import { mergeFooterContent } from "@/lib/content/merge-content";
+import type { FooterContent } from "@/types";
 
 const FILE_STORE = path.join(process.cwd(), "data", "landing-pages.json");
 const RULES_STORE = path.join(process.cwd(), "data", "landing-redirects.json");
@@ -45,32 +47,45 @@ function parseJson<T>(value: T | string | undefined | null, fallback: T): T {
   return value as T;
 }
 
-/** Branding may live in its own column or nested under seo (no migration required). */
-function extractSeoAndBranding(
+/** Branding and footer may live nested under seo (no migration required). */
+function extractSeoExtras(
   seoRaw: unknown,
   brandingRaw?: unknown,
-): { seo: LandingPageSeo; branding: LandingPageBranding } {
-  const parsed = parseJson<LandingPageSeo & { branding?: LandingPageBranding }>(
-    seoRaw as LandingPageSeo,
-    {},
-  );
-  const nested = parsed.branding;
-  const { branding: _omit, ...seo } = parsed as LandingPageSeo & {
+): { seo: LandingPageSeo; branding: LandingPageBranding; footer?: FooterContent } {
+  const parsed = parseJson<
+    LandingPageSeo & { branding?: LandingPageBranding; footer?: FooterContent }
+  >(seoRaw as LandingPageSeo, {});
+  const nestedBranding = parsed.branding;
+  const nestedFooter = parsed.footer;
+  const { branding: _omitBrand, footer: _omitFooter, ...seo } = parsed as LandingPageSeo & {
     branding?: LandingPageBranding;
+    footer?: FooterContent;
   };
   const fromColumn = brandingRaw
     ? parseJson<LandingPageBranding>(brandingRaw as LandingPageBranding, {})
     : {};
   const branding: LandingPageBranding = {
     ...DEFAULT_LANDING_BRANDING,
-    ...nested,
+    ...nestedBranding,
     ...fromColumn,
   };
-  return { seo, branding };
+  return {
+    seo,
+    branding,
+    footer: nestedFooter ? mergeFooterContent(nestedFooter) : undefined,
+  };
 }
 
-function packSeoForStorage(seo: LandingPageSeo, branding: LandingPageBranding) {
-  return { ...seo, branding };
+function packSeoForStorage(
+  seo: LandingPageSeo,
+  branding: LandingPageBranding,
+  footer?: FooterContent,
+) {
+  return {
+    ...seo,
+    branding,
+    ...(footer ? { footer } : {}),
+  };
 }
 
 function normalizePage(page: LandingPage): LandingPage {
@@ -78,12 +93,13 @@ function normalizePage(page: LandingPage): LandingPage {
     ...page,
     redirect: page.redirect || DEFAULT_LANDING_REDIRECT,
     branding: { ...DEFAULT_LANDING_BRANDING, ...(page.branding || {}) },
+    footer: page.footer ? mergeFooterContent(page.footer) : undefined,
     seo: page.seo || {},
   };
 }
 
 function mapRow(row: Row): LandingPage {
-  const { seo, branding } = extractSeoAndBranding(row.seo, row.branding);
+  const { seo, branding, footer } = extractSeoExtras(row.seo, row.branding);
   return {
     id: row.id,
     title: row.title,
@@ -93,6 +109,7 @@ function mapRow(row: Row): LandingPage {
     sections: parseJson(row.sections, []),
     seo,
     branding,
+    footer,
     redirect: parseJson(row.redirect, DEFAULT_LANDING_REDIRECT),
     createdAt:
       typeof row.created_at === "string"
@@ -110,15 +127,18 @@ async function ensureFileStore(): Promise<LandingPage[]> {
     const raw = await fs.readFile(FILE_STORE, "utf8");
     const pages = JSON.parse(raw) as LandingPage[];
     return pages.map((p) => {
-      const fromSeo = (p.seo as LandingPageSeo & { branding?: LandingPageBranding })
-        ?.branding;
-      const { branding: _b, ...seoRest } = (p.seo || {}) as LandingPageSeo & {
+      const seoBlob = (p.seo || {}) as LandingPageSeo & {
         branding?: LandingPageBranding;
+        footer?: FooterContent;
       };
+      const fromSeo = seoBlob.branding;
+      const fromSeoFooter = seoBlob.footer;
+      const { branding: _b, footer: _f, ...seoRest } = seoBlob;
       return normalizePage({
         ...p,
         seo: seoRest,
         branding: p.branding || fromSeo || DEFAULT_LANDING_BRANDING,
+        footer: p.footer || fromSeoFooter,
       });
     });
   } catch {
@@ -226,6 +246,7 @@ export async function createLandingPage(
     sections: input.sections,
     seo: input.seo || { title: input.title, description: "" },
     branding: { ...DEFAULT_LANDING_BRANDING, ...(input.branding || {}) },
+    footer: input.footer ? mergeFooterContent(input.footer) : undefined,
     redirect: input.redirect || DEFAULT_LANDING_REDIRECT,
     createdAt: now,
     updatedAt: now,
@@ -244,7 +265,7 @@ export async function createLandingPage(
           page.status,
           page.designImage,
           JSON.stringify(page.sections),
-          JSON.stringify(packSeoForStorage(page.seo, page.branding)),
+          JSON.stringify(packSeoForStorage(page.seo, page.branding, page.footer)),
           JSON.stringify(page.redirect),
           page.createdAt,
           page.updatedAt,
@@ -285,6 +306,10 @@ export async function updateLandingPage(
     branding: input.branding
       ? { ...DEFAULT_LANDING_BRANDING, ...input.branding }
       : existing.branding || DEFAULT_LANDING_BRANDING,
+    footer:
+      input.footer !== undefined
+        ? mergeFooterContent(input.footer)
+        : existing.footer,
     redirect: input.redirect ?? existing.redirect ?? DEFAULT_LANDING_REDIRECT,
     updatedAt: new Date().toISOString(),
   };
@@ -304,7 +329,7 @@ export async function updateLandingPage(
           updated.status,
           updated.designImage,
           JSON.stringify(updated.sections),
-          JSON.stringify(packSeoForStorage(updated.seo, updated.branding)),
+          JSON.stringify(packSeoForStorage(updated.seo, updated.branding, updated.footer)),
           JSON.stringify(updated.redirect),
           updated.updatedAt,
         ],

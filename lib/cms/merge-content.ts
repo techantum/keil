@@ -1,15 +1,15 @@
 import {
   defaultAboutPageContent,
   defaultContactPageContent,
-  defaultFooterContent,
   defaultHomePageContent,
 } from "@/lib/content/default-content";
 import type {
   AboutPageContent,
   ContactPageContent,
-  FooterContent,
   HomePageContent,
 } from "@/types";
+
+export { mergeFooterContent } from "@/lib/content/merge-content";
 
 export function mergeHomeContent(data: Partial<HomePageContent>): HomePageContent {
   const d = defaultHomePageContent();
@@ -118,27 +118,5 @@ export function mergeContactContent(data: Partial<ContactPageContent>): ContactP
     },
     form: { ...d.form, ...data.form },
     enquiry: { ...d.enquiry, ...data.enquiry },
-  };
-}
-
-export function mergeFooterContent(data: Partial<FooterContent>): FooterContent {
-  const d = defaultFooterContent();
-  return {
-    ...d,
-    ...data,
-    settings: { ...d.settings, ...data.settings },
-    productLinksSection: { ...d.productLinksSection, ...data.productLinksSection },
-    aboutLinksSection: { ...d.aboutLinksSection, ...data.aboutLinksSection },
-    resourcesLinksSection: { ...d.resourcesLinksSection, ...data.resourcesLinksSection },
-    newsletterSection: { ...d.newsletterSection, ...data.newsletterSection },
-    contactSection: { ...d.contactSection, ...data.contactSection },
-    socialSection: { ...d.socialSection, ...data.socialSection },
-    productLinks: data.productLinks ?? d.productLinks,
-    aboutLinks: data.aboutLinks ?? d.aboutLinks,
-    resourcesLinks: data.resourcesLinks ?? d.resourcesLinks,
-    legalLinks: data.legalLinks ?? d.legalLinks,
-    newsletter: { ...d.newsletter, ...data.newsletter },
-    contact: { ...d.contact, ...data.contact },
-    socialMedia: { ...d.socialMedia, ...data.socialMedia },
   };
 }

@@ -1,3 +1,5 @@
+import type { FooterContent } from "@/types";
+
 export type LandingSectionType =
   | "hero"
   | "about"
@@ -128,6 +130,8 @@ export type LandingPage = {
   sections: LandingSection[];
   seo: LandingPageSeo;
   branding: LandingPageBranding;
+  /** Unique footer for this landing page */
+  footer?: FooterContent;
   redirect: LandingRedirectConfig;
   createdAt: string;
   updatedAt: string;
@@ -140,6 +144,7 @@ export type CreateLandingPageInput = {
   sections: LandingSection[];
   seo?: LandingPageSeo;
   branding?: LandingPageBranding;
+  footer?: FooterContent;
   status?: LandingPageStatus;
   redirect?: LandingRedirectConfig;
 };
@@ -151,6 +156,7 @@ export type UpdateLandingPageInput = Partial<{
   sections: LandingSection[];
   seo: LandingPageSeo;
   branding: LandingPageBranding;
+  footer?: FooterContent;
   status: LandingPageStatus;
   redirect: LandingRedirectConfig;
 }>;

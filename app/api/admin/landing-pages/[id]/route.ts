@@ -39,6 +39,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       sections: body.sections,
       seo: body.seo,
       branding: body.branding,
+      footer: body.footer,
       status: body.status,
       redirect: body.redirect,
     });
