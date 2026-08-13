@@ -39,7 +39,8 @@
             "title": "Trusted Across AP & Telangana",
             "icon": "map-pin"
           }
-        ]
+        ],
+        "showInNav": false
       },
       {
         "id": "baf69ba1-3b97-4feb-bf49-42df09c6eb30",
@@ -414,8 +415,8 @@
         "title": "Ready to Build Better Farms?",
         "description": "Connect with KEIL today for the best EC shed solutions in Andhra Pradesh & Telangana.",
         "image": "/uploads/images/1786617493834_ChatGPT_Image_Aug_13__2026__04_08_02_PM.png",
-        "buttonText": "90505 40505",
-        "buttonLink": "tel:9050540505",
+        "buttonText": "+919059930505",
+        "buttonLink": "tel:9059930505",
         "buttonAction": "external",
         "items": [
           {
@@ -434,7 +435,8 @@
             "title": "24/7 Support & Service",
             "icon": "headphones"
           }
-        ]
+        ],
+        "showInNav": false
       }
     ],
     "seo": {
@@ -443,7 +445,7 @@
       "keywords": []
     },
     "createdAt": "2026-08-12T09:16:15.059Z",
-    "updatedAt": "2026-08-13T10:38:20.322Z",
+    "updatedAt": "2026-08-13T10:56:35.380Z",
     "redirect": {
       "mode": "any_slug",
       "paths": []
