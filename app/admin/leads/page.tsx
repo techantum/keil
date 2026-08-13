@@ -112,15 +112,15 @@ export default function LeadsPage() {
     <AdminShell title="Leads & CRM" description="Manage enquiries and follow-ups.">
       <div className="grid gap-4 lg:grid-cols-5">
         <AdminCard className="lg:col-span-2" title={`Leads (${filtered.length})`}>
-          <div className="mb-3 flex gap-2">
+          <div className="mb-3 flex flex-col gap-2 sm:flex-row">
             <Input
-              className="h-8 text-xs"
+              className="h-8 min-w-0 flex-1 text-xs"
               placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
             <Select value={stageFilter} onValueChange={setStageFilter}>
-              <SelectTrigger className="h-8 w-28 text-xs">
+              <SelectTrigger className="h-8 w-full text-xs sm:w-28">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

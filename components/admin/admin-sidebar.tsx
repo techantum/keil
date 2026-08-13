@@ -11,11 +11,12 @@ import { ThemeToggle } from "./theme-toggle";
 import { ADMIN_CORE_NAV, MODULES } from "@/lib/modules/registry";
 import { CMS_ADMIN_BASE, CMS_MODULE_KEYS, getVisibleCmsNav, isCmsAdminPath } from "@/lib/cms/nav";
 
-export function AdminSidebar() {
+export function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const [logo, setLogo] = useState<string | null>(null);
-  const [collapsed, setCollapsed] = useState(false);
+  const [desktopCollapsed, setDesktopCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [enabledModules, setEnabledModules] = useState<Record<string, boolean>>({});
   const [role, setRole] = useState<"admin" | "super_admin" | null>(null);
   const [cmsOpen, setCmsOpen] = useState(isCmsAdminPath(pathname));
@@ -25,6 +26,16 @@ export function AdminSidebar() {
       setCmsOpen(true);
     }
   }, [pathname]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const apply = () => setIsMobile(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  const collapsed = desktopCollapsed && !isMobile;
 
   useEffect(() => {
     fetch("/api/admin/settings")
@@ -94,7 +105,7 @@ export function AdminSidebar() {
   return (
     <div
       className={cn(
-        "flex h-full flex-col border-r border-slate-200 bg-white text-slate-900 transition-all dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100",
+        "admin-sidebar flex h-full flex-col border-r border-slate-200 bg-white text-slate-900 transition-all dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100",
         collapsed ? "w-16" : "w-56",
       )}
     >
@@ -114,8 +125,8 @@ export function AdminSidebar() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
-          onClick={() => setCollapsed(!collapsed)}
+          className="admin-sidebar-collapse hidden h-7 w-7 md:inline-flex"
+          onClick={() => setDesktopCollapsed(!desktopCollapsed)}
         >
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
@@ -125,7 +136,13 @@ export function AdminSidebar() {
         {coreNav.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
-            <Link key={item.href} href={item.href} title={item.name} className={linkClass(isActive)}>
+            <Link
+              key={item.href}
+              href={item.href}
+              title={item.name}
+              className={linkClass(isActive)}
+              onClick={onNavigate}
+            >
               <item.icon className="h-4 w-4 shrink-0" />
               {!collapsed && <span>{item.name}</span>}
             </Link>
@@ -170,6 +187,7 @@ export function AdminSidebar() {
                       key={item.href}
                       href={item.href}
                       title={item.name}
+                      onClick={onNavigate}
                       className={cn(
                         "block rounded-md px-2 py-1 text-[11px] font-medium transition-colors",
                         isActive
@@ -193,7 +211,13 @@ export function AdminSidebar() {
         {moduleNav.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
-            <Link key={item.href} href={item.href} title={item.name} className={linkClass(isActive)}>
+            <Link
+              key={item.href}
+              href={item.href}
+              title={item.name}
+              className={linkClass(isActive)}
+              onClick={onNavigate}
+            >
               <item.icon className="h-4 w-4 shrink-0" />
               {!collapsed && <span>{item.name}</span>}
             </Link>

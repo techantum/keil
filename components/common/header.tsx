@@ -19,8 +19,15 @@ export function Header() {
   const [logo, setLogo] = useState<string | null>(null);
 
   const company = settings?.company ?? DEFAULT_COMPANY;
-  const phone = company.phone || DEFAULT_COMPANY.phone;
-  const phoneHref = `tel:${phone.replace(/\s/g, "")}`;
+  const phone =
+    settings?.branding?.navbarPhone?.trim() ||
+    company.phone?.trim() ||
+    DEFAULT_COMPANY.phone;
+  const phoneHref = phone ? `tel:${phone.replace(/\s/g, "")}` : "";
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     fetch("/api/nav")
@@ -59,15 +66,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
       <nav className="keil-container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between lg:h-24">
-          <Link href={logoHref} className="flex shrink-0 items-center">
+        <div className="flex h-16 items-center justify-between sm:h-20 lg:h-24">
+          <Link href={logoHref} className="flex min-w-0 shrink-0 items-center">
             {logo ? (
               <Image
                 src={logo}
                 alt={company.name || "KEIL"}
                 width={180}
                 height={72}
-                className="h-14 w-auto object-contain lg:h-16"
+                className="h-11 w-auto object-contain sm:h-14 lg:h-16"
                 priority
               />
             ) : (
@@ -89,10 +96,12 @@ export function Header() {
                 </Link>
               ))}
 
-            <a href={phoneHref} className="keil-btn keil-btn-primary !py-2.5 !text-xs">
-              <Phone className="h-4 w-4" />
-              {phone}
-            </a>
+            {phone ? (
+              <a href={phoneHref} className="keil-btn keil-btn-primary !py-2.5 !text-xs">
+                <Phone className="h-4 w-4" />
+                {phone}
+              </a>
+            ) : null}
           </div>
 
           <button
@@ -119,14 +128,16 @@ export function Header() {
                     {item.label}
                   </Link>
                 ))}
-              <a
-                href={phoneHref}
-                className="keil-btn keil-btn-primary mt-3 w-full"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Phone className="h-4 w-4" />
-                {phone}
-              </a>
+              {phone ? (
+                <a
+                  href={phoneHref}
+                  className="keil-btn keil-btn-primary mt-3 w-full"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Phone className="h-4 w-4" />
+                  {phone}
+                </a>
+              ) : null}
             </div>
           </div>
         )}

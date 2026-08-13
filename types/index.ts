@@ -516,6 +516,8 @@ export interface Settings {
     websiteFavicon: string
     dashboardLogo: string
     dashboardFavicon: string
+    /** Phone shown as the call button in the public navbar */
+    navbarPhone?: string
     colors: {
       primary: string
       secondary: string

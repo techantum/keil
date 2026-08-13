@@ -39,6 +39,7 @@ export const defaultSettingsData: Omit<Settings, "id" | "updatedAt"> = {
     websiteFavicon: "/favicon.ico",
     dashboardLogo: "/logo.png",
     dashboardFavicon: "/favicon.ico",
+    navbarPhone: "",
     colors: {
       primary: KEIL_COLORS.green,
       secondary: KEIL_COLORS.navy,

@@ -4,5 +4,6 @@ package-lock.json
 .gitignorelogs/
 .env
 .env.local
+data/admin-credentials.json
 
 scripts/_seed-landing.sql

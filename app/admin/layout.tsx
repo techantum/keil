@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { AdminSidebar } from "@/components/admin/admin-sidebar"
+import { AdminChrome } from "@/components/admin/admin-chrome"
 import { ToastProvider } from "@/components/providers/toast-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "sonner"
@@ -42,12 +42,7 @@ export default function AdminLayout({
       disableTransitionOnChange={false}
     >
       <ToastProvider>
-        <div className="flex h-screen overflow-hidden">
-          <AdminSidebar />
-          <main className="admin-compact flex min-h-0 flex-1 flex-col overflow-y-auto bg-gradient-to-b from-slate-50 to-indigo-50/40 dark:bg-slate-900">
-            {children}
-          </main>
-        </div>
+        <AdminChrome>{children}</AdminChrome>
         <Toaster position="top-right" richColors />
       </ToastProvider>
     </ThemeProvider>

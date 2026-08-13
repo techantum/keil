@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Shield, Save } from "lucide-react";
 import { toast } from "sonner";
 import type { AdminRole } from "@/lib/auth";
+import { SuperAdminPasswordSettings } from "@/components/admin/password-settings";
 
 export default function ModulesPage() {
   const [modules, setModules] = useState<Record<string, boolean>>({});
@@ -185,6 +186,15 @@ export default function ModulesPage() {
       }
     >
       <div className="space-y-4">
+        {canManage ? (
+          <AdminCard
+            title="Accounts & passwords"
+            description="Change the site admin or super admin password. Both require your current super admin password."
+          >
+            <SuperAdminPasswordSettings />
+          </AdminCard>
+        ) : null}
+
         <AdminCard title="Feature modules">
           <div className="space-y-4">
             <div>

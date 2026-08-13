@@ -122,7 +122,7 @@ export default function AdminTestimonialsPage() {
 
       <AdminCard>
         <div className="mb-3 flex flex-wrap items-center gap-2">
-          <div className="relative min-w-[220px] flex-1">
+          <div className="relative min-w-0 flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
             <Input
               className="h-9 rounded-xl pl-9"
@@ -250,7 +250,7 @@ export default function AdminTestimonialsPage() {
             </DialogHeader>
           </div>
           <div className="grid max-h-[calc(90vh-10rem)] gap-4 overflow-y-auto px-5 py-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <Label htmlFor="name">Name*</Label>
                 <Input 
@@ -292,7 +292,7 @@ export default function AdminTestimonialsPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <Label htmlFor="rating">Rating (1-5)</Label>
                 <Input 

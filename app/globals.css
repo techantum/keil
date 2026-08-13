@@ -3798,3 +3798,107 @@ html.site-smooth-scroll {
   transform: translateY(-2px);
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
 }
+
+/* ── Mobile: public site + admin ── */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.keil-footer-contact-row span,
+.keil-footer-copy {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 767px) {
+  .keil-section {
+    padding: 2.5rem 0;
+  }
+
+  .keil-btn,
+  .lp-phone-btn,
+  .lp-projects-cta {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .keil-hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .keil-hero-ctas .keil-btn,
+  .keil-hero-ctas a,
+  .keil-hero-ctas button {
+    width: 100%;
+  }
+
+  .keil-badge-overlay {
+    width: 5.5rem;
+    height: 5.5rem;
+    top: 0.65rem;
+    right: 0.65rem;
+    padding: 0.5rem;
+  }
+
+  .keil-badge-overlay__text {
+    font-size: 0.5rem;
+  }
+
+  .lp-consult-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lp-consult-cancel,
+  .lp-consult-submit {
+    width: 100%;
+  }
+
+  .lp-projects-cta,
+  .lp-cta-phone {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cms-studio,
+  .lp-studio {
+    padding: 0.5rem 0.65rem 0;
+  }
+
+  .cms-studio-header,
+  .lp-studio-header {
+    padding: 0.7rem 0.75rem;
+    border-radius: 0.75rem;
+  }
+
+  .cms-studio-title,
+  .lp-studio-title {
+    font-size: 0.95rem;
+  }
+
+  .cms-studio-footer {
+    margin-left: -0.65rem;
+    margin-right: -0.65rem;
+  }
+
+  .admin-sidebar {
+    width: 16rem !important;
+  }
+
+  .admin-compact table,
+  .cms-studio table,
+  .lp-studio table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .lp-btn {
+    white-space: nowrap;
+  }
+}
+

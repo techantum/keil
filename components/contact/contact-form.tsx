@@ -89,7 +89,7 @@ export function ContactForm() {
       <p className="mb-8 font-sans text-base text-gray-600">{content.description}</p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <Label htmlFor="firstName" className="font-sans text-base font-medium text-gray-700">
               First name
@@ -136,11 +136,11 @@ export function ContactForm() {
           <Label htmlFor="phone" className="font-sans text-base font-medium text-gray-700">
             Phone number
           </Label>
-          <div className="mt-2 flex gap-2">
+          <div className="mt-2 flex min-w-0 gap-2">
             <select
               value={formData.countryCode}
               onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
-              className="h-11 w-24 rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="h-11 w-24 shrink-0 rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <option value="+91">+91</option>
               <option value="+1">+1</option>
@@ -153,7 +153,7 @@ export function ContactForm() {
               required
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="h-11 flex-1 text-base"
+              className="h-11 min-w-0 flex-1 text-base"
             />
           </div>
         </div>

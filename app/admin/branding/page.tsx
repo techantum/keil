@@ -73,6 +73,22 @@ export default function BrandingPage() {
           </AdminFormGrid>
         </AdminCard>
 
+        <AdminCard title="Navbar">
+          <AdminFormGrid>
+            <AdminField label="Phone number" wide>
+              <Input
+                className="h-8 text-sm"
+                value={(branding.navbarPhone as string) || ""}
+                onChange={(e) => updateBranding("navbarPhone", e.target.value)}
+                placeholder="90505 40505"
+              />
+              <p className="mt-1 text-[10px] text-slate-500">
+                Shown as the call button in the website header. Leave blank to use Company phone.
+              </p>
+            </AdminField>
+          </AdminFormGrid>
+        </AdminCard>
+
         <AdminCard title="Colors">
           <AdminFormGrid>
             {Object.entries(colors).map(([key, value]) => (

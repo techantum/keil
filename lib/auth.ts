@@ -1,73 +1,34 @@
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
-import { SignJWT, jwtVerify } from "jose";
+import {
+  getEnvCredentials,
+  passwordMatches,
+} from "@/lib/auth-credentials";
+import {
+  SESSION_COOKIE,
+  SESSION_MAX_AGE,
+  createSession,
+  verifySessionToken,
+  type AdminRole,
+  type AdminUser,
+} from "@/lib/auth-session";
 
-const SESSION_COOKIE = "admin_session";
-const SESSION_MAX_AGE = 60 * 60 * 24 * 7;
-
-function getSecretKey() {
-  const secret = process.env.SESSION_SECRET || "change-this-to-a-long-random-string";
-  return new TextEncoder().encode(secret);
-}
-
-function getAdminCredentials() {
-  return {
-    adminUsername: process.env.ADMIN_USERNAME || "admin",
-    adminPassword: process.env.ADMIN_PASSWORD || "admin123",
-    superAdminUsername: process.env.SUPER_ADMIN_USERNAME || "superadmin",
-    superAdminPassword: process.env.SUPER_ADMIN_PASSWORD || "superadmin123",
-  };
-}
-
-export type AdminRole = "admin" | "super_admin";
-
-export interface AdminUser {
-  username: string;
-  role: AdminRole;
-}
-
-export function isSuperAdmin(user: AdminUser): boolean {
-  return user.role === "super_admin";
-}
+export type { AdminRole, AdminUser };
+export { isSuperAdmin, createSession, verifySessionToken } from "@/lib/auth-session";
 
 export async function validateCredentials(
   username: string,
   password: string,
 ): Promise<AdminUser | null> {
-  const {
-    adminUsername,
-    adminPassword,
-    superAdminUsername,
-    superAdminPassword,
-  } = getAdminCredentials();
+  const { adminUsername, superAdminUsername } = getEnvCredentials();
 
-  if (username === superAdminUsername && password === superAdminPassword) {
+  if (username === superAdminUsername && (await passwordMatches("super_admin", password))) {
     return { username, role: "super_admin" };
   }
-  if (username === adminUsername && password === adminPassword) {
+  if (username === adminUsername && (await passwordMatches("admin", password))) {
     return { username, role: "admin" };
   }
   return null;
-}
-
-export async function createSession(user: AdminUser): Promise<string> {
-  return new SignJWT({ username: user.username, role: user.role })
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime(`${SESSION_MAX_AGE}s`)
-    .sign(getSecretKey());
-}
-
-export async function verifySessionToken(token: string): Promise<AdminUser | null> {
-  try {
-    const { payload } = await jwtVerify(token, getSecretKey());
-    if (typeof payload.username !== "string") return null;
-    const role = payload.role;
-    if (role !== "admin" && role !== "super_admin") return null;
-    return { username: payload.username, role };
-  } catch {
-    return null;
-  }
 }
 
 export async function setSessionCookie(token: string) {

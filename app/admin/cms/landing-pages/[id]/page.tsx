@@ -436,6 +436,25 @@ export default function EditLandingPageAdmin() {
               </div>
             </div>
           </div>
+          <div className="lp-field">
+            <label>Navbar phone</label>
+            <p className="lp-hint mb-1">
+              Call button in this landing page header. Leave blank to use Branding / Company phone.
+            </p>
+            <input
+              value={page.branding?.navbarPhone || ""}
+              onChange={(e) =>
+                patch({
+                  branding: {
+                    ...DEFAULT_LANDING_BRANDING,
+                    ...page.branding,
+                    navbarPhone: e.target.value,
+                  },
+                })
+              }
+              placeholder="90505 40505"
+            />
+          </div>
           <div className="lp-grid">
             {(
               [

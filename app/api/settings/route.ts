@@ -12,6 +12,7 @@ function settingsPayload(settings: Settings) {
     company: settings.company?.name ? settings.company : defaults.company,
     branding: {
       websiteLogo: settings.branding?.websiteLogo || defaults.branding.websiteLogo,
+      navbarPhone: settings.branding?.navbarPhone || defaults.branding.navbarPhone || "",
       colors: settings.branding?.colors || defaults.branding.colors,
     },
     pageHeroes: settings.pageHeroes || defaults.pageHeroes,

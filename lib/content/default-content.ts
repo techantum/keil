@@ -511,6 +511,7 @@ export const defaultPublicSettings = () => ({
   },
   branding: {
     websiteLogo: "/logo.png",
+    navbarPhone: "",
     colors: {
       primary: KEIL_COLORS.green,
       secondary: KEIL_COLORS.navy,

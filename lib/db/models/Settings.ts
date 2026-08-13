@@ -153,6 +153,7 @@ const SettingsSchema = new Schema<SettingsDocument>(
       websiteFavicon: { type: String, default: "/favicon.ico" },
       dashboardLogo: { type: String, default: "/logo.png" },
       dashboardFavicon: { type: String, default: "/favicon.ico" },
+      navbarPhone: { type: String, default: "" },
       colors: {
         primary: { type: String, default: "#4384C5" },
         secondary: { type: String, default: "#053C74" },

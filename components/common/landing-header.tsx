@@ -11,16 +11,26 @@ import type { LandingPage } from "@/types/landing-page";
 
 const DEFAULT_COMPANY = defaultPublicSettings().company;
 
-export function LandingHeader({ page }: { page: LandingPage }) {
+export function LandingHeader({
+  page,
+  homeHref,
+}: {
+  page: LandingPage;
+  homeHref?: string;
+}) {
   const { settings } = usePublicSettings();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
 
   const company = settings?.company ?? DEFAULT_COMPANY;
-  const phone = company.phone || DEFAULT_COMPANY.phone;
-  const phoneHref = `tel:${phone.replace(/\s/g, "")}`;
-  const homeHref = `/lp/${page.slug}`;
+  const phone =
+    page.branding?.navbarPhone?.trim() ||
+    settings?.branding?.navbarPhone?.trim() ||
+    company.phone?.trim() ||
+    DEFAULT_COMPANY.phone;
+  const phoneHref = phone ? `tel:${phone.replace(/\s/g, "")}` : "";
+  const logoHref = homeHref || `/lp/${page.slug}`;
   const navItems = getLandingNavItems(page);
 
   useEffect(() => {
@@ -64,7 +74,7 @@ export function LandingHeader({ page }: { page: LandingPage }) {
     <header className="lp-header sticky top-0 z-50 border-b border-[#edf0f3] bg-white">
       <nav className="keil-container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.5rem] items-center justify-between gap-4 lg:h-[5.25rem]">
-          <Link href={homeHref} className="flex shrink-0 items-center">
+          <Link href={logoHref} className="flex shrink-0 items-center">
             {logo ? (
               <Image
                 src={logo}

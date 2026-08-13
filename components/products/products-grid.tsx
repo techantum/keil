@@ -87,9 +87,9 @@ export function ProductsGrid({
     <section className="py-16">
       <ScrollReveal>
         <div className="container mx-auto px-4">
-        <div className="flex gap-8">
+        <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
           {/* Sidebar */}
-          <div className="w-64 flex-shrink-0">
+          <div className="w-full shrink-0 lg:w-64">
             <div className="bg-[#1a2847] rounded-xl overflow-hidden">
               <div className="p-4">
                 <h2 className="text-xl font-bold text-white">PRODUCTS</h2>

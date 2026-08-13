@@ -83,6 +83,8 @@ export type LandingPageBranding = {
   footerLogo?: string;
   favicon?: string;
   ogImage?: string;
+  /** Phone shown as the call button in this landing page navbar */
+  navbarPhone?: string;
   /** Headings, trust bar, outline buttons (default navy) */
   primaryColor?: string;
   /** CTAs, accents, phone button (default red) */
@@ -94,6 +96,7 @@ export const DEFAULT_LANDING_BRANDING: LandingPageBranding = {
   footerLogo: "",
   favicon: "",
   ogImage: "",
+  navbarPhone: "",
   primaryColor: "#002B5B",
   secondaryColor: "#E31C23",
 };

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifySessionToken } from "@/lib/auth";
+import { verifySessionToken } from "@/lib/auth-session";
 import { getModuleForPath } from "@/lib/modules/registry";
 import { getEnabledModulesEdge } from "@/lib/modules/get-enabled-modules-edge";
 import { resolveNavRoute } from "@/lib/nav/resolve-nav-route";

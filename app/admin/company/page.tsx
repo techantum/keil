@@ -45,14 +45,22 @@ export default function CompanyPage() {
               <Input className="h-8 text-sm" value={(company.email as string) || ""} onChange={(e) => setCompany({ email: e.target.value })} />
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">Phone</Label>
-              <Input className="h-8 text-sm" value={(company.phone as string) || ""} onChange={(e) => setCompany({ phone: e.target.value })} />
+              <Label className="text-xs">Phone (navbar button)</Label>
+              <Input
+                className="h-8 text-sm"
+                value={(company.phone as string) || ""}
+                onChange={(e) => setCompany({ phone: e.target.value })}
+                placeholder="90505 40505"
+              />
+              <p className="text-[10px] text-slate-500">
+                Used as the fallback number if Branding / landing navbar phone is empty.
+              </p>
             </div>
           </div>
         </AdminCard>
 
         <AdminCard title="Address">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             {(["street", "city", "state", "zipCode", "country"] as const).map((field) => (
               <div key={field} className="space-y-1">
                 <Label className="text-xs capitalize">{field}</Label>
@@ -69,7 +77,7 @@ export default function CompanyPage() {
         </AdminCard>
 
         <AdminCard title="Social links" className="lg:col-span-2">
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
             {(["facebook", "twitter", "linkedin", "youtube", "instagram", "whatsapp"] as const).map((field) => (
               <div key={field} className="space-y-1">
                 <Label className="text-xs capitalize">{field}</Label>
