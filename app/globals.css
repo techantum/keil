@@ -3803,7 +3803,7 @@ html.site-smooth-scroll {
 html,
 body {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .keil-footer-contact-row span,

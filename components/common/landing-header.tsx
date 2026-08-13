@@ -71,7 +71,8 @@ export function LandingHeader({
   }, [navItems]);
 
   return (
-    <header className="lp-header sticky top-0 z-50 border-b border-[#edf0f3] bg-white">
+    <>
+    <header className="lp-header fixed inset-x-0 top-0 z-50 border-b border-[#edf0f3] bg-white shadow-sm">
       <nav className="keil-container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.5rem] items-center justify-between gap-4 lg:h-[5.25rem]">
           <Link href={logoHref} className="flex shrink-0 items-center">
@@ -158,5 +159,7 @@ export function LandingHeader({
         ) : null}
       </nav>
     </header>
+    <div className="h-[4.5rem] lg:h-[5.25rem]" aria-hidden="true" />
+    </>
   );
 }

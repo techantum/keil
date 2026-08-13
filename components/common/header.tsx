@@ -64,7 +64,8 @@ export function Header() {
   const logoHref = homeItem?.slug || "/";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
+    <>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
       <nav className="keil-container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between sm:h-20 lg:h-24">
           <Link href={logoHref} className="flex min-w-0 shrink-0 items-center">
@@ -143,5 +144,7 @@ export function Header() {
         )}
       </nav>
     </header>
+    <div className="h-16 sm:h-20 lg:h-24" aria-hidden="true" />
+    </>
   );
 }
