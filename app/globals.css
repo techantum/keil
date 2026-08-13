@@ -1856,14 +1856,13 @@ html.site-smooth-scroll {
 .lp-why-feature-col {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 0;
 }
 
 @media (min-width: 1024px) {
   .lp-why-feature-col {
     padding-left: 1.5rem;
     border-left: 1px solid #e5eaf0;
+    height: 100%;
   }
 }
 
@@ -1871,10 +1870,15 @@ html.site-smooth-scroll {
   display: flex;
   gap: 0.9rem;
   align-items: flex-start;
-  flex: 1 1 0;
-  min-height: 0;
+  flex: 0 0 auto;
   padding: 1.15rem 0.25rem 1.25rem 0;
   border-bottom: 1px solid #e5eaf0;
+}
+
+@media (min-width: 1024px) {
+  .lp-why-feature {
+    flex: 1 1 auto;
+  }
 }
 
 .lp-why-feature-col .lp-why-feature:last-child {
@@ -1895,6 +1899,7 @@ html.site-smooth-scroll {
 
 .lp-why-feature-copy {
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .lp-why-feature-title {
