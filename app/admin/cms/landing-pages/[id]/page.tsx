@@ -20,6 +20,7 @@ import { MediaUpload } from "@/components/admin/media-upload";
 import { IMAGE_PRESETS } from "@/lib/cms/image-presets";
 import { Switch } from "@/components/ui/switch";
 import { useToastContext } from "@/components/providers/toast-provider";
+import { LandingFooterEditor } from "@/components/admin/cms/landing-footer-editor";
 import type { LandingPage, LandingSection, LandingSectionType, LandingCtaAction } from "@/types/landing-page";
 import {
   DEFAULT_LANDING_BRANDING,
@@ -506,6 +507,8 @@ export default function EditLandingPageAdmin() {
           </div>
         </div>
       </div>
+
+      <LandingFooterEditor />
 
       <div className="lp-card-row">
         <div className="lp-panel">

@@ -94,9 +94,18 @@ export function Footer({ logoOverride }: { logoOverride?: string } = {}) {
   };
   const contactEmail = footer.contact?.email || company.email;
   const contactPhone = footer.contact?.phone || company.phone;
+  const address = company.address;
   const contactLocation =
     footer.contact?.location ||
-    [company.address, company.city, company.state, company.pincode].filter(Boolean).join(", ");
+    [
+      typeof address === "string" ? address : address?.street,
+      typeof address === "object" ? address?.city : undefined,
+      typeof address === "object" ? address?.state : undefined,
+      typeof address === "object" ? address?.zipCode : undefined,
+      typeof address === "object" ? address?.country : undefined,
+    ]
+      .filter(Boolean)
+      .join(", ");
 
   const columns: Array<{ key: string; node: React.ReactNode } | null> = [];
 

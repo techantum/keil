@@ -68,6 +68,22 @@ export function FooterCmsForm({ content, onChange }: Props) {
           patch({ productLinksSection: { ...content.productLinksSection, enabled } })
         }
       >
+        <AdminFormGrid>
+          <AdminField label="Column title" size="md">
+            <AdminInput
+              value={content.productLinksSection?.title || ""}
+              placeholder="Our Solutions"
+              onChange={(e) =>
+                patch({
+                  productLinksSection: {
+                    ...content.productLinksSection,
+                    title: e.target.value,
+                  },
+                })
+              }
+            />
+          </AdminField>
+        </AdminFormGrid>
         <div className="space-y-2">
           {content.productLinks.map((link, index) => (
             <div key={index} className="flex flex-wrap items-center gap-2">
@@ -117,6 +133,22 @@ export function FooterCmsForm({ content, onChange }: Props) {
           patch({ aboutLinksSection: { ...content.aboutLinksSection, enabled } })
         }
       >
+        <AdminFormGrid>
+          <AdminField label="Column title" size="md">
+            <AdminInput
+              value={content.aboutLinksSection?.title || ""}
+              placeholder="Quick Links"
+              onChange={(e) =>
+                patch({
+                  aboutLinksSection: {
+                    ...content.aboutLinksSection,
+                    title: e.target.value,
+                  },
+                })
+              }
+            />
+          </AdminField>
+        </AdminFormGrid>
         <div className="space-y-2">
           {content.aboutLinks.map((link, index) => (
             <div key={index} className="flex flex-wrap items-center gap-2">
@@ -166,6 +198,22 @@ export function FooterCmsForm({ content, onChange }: Props) {
           patch({ resourcesLinksSection: { ...content.resourcesLinksSection, enabled } })
         }
       >
+        <AdminFormGrid>
+          <AdminField label="Column title" size="md">
+            <AdminInput
+              value={content.resourcesLinksSection?.title || ""}
+              placeholder="Resources"
+              onChange={(e) =>
+                patch({
+                  resourcesLinksSection: {
+                    ...content.resourcesLinksSection,
+                    title: e.target.value,
+                  },
+                })
+              }
+            />
+          </AdminField>
+        </AdminFormGrid>
         <div className="space-y-2">
           {(content.resourcesLinks || []).map((link, index) => (
             <div key={index} className="flex flex-wrap items-center gap-2">
@@ -298,6 +346,17 @@ export function FooterCmsForm({ content, onChange }: Props) {
         }
       >
         <AdminFormGrid>
+          <AdminField label="Column title" size="md">
+            <AdminInput
+              value={content.contactSection?.title || ""}
+              placeholder="Contact Us"
+              onChange={(e) =>
+                patch({
+                  contactSection: { ...content.contactSection, title: e.target.value },
+                })
+              }
+            />
+          </AdminField>
           <AdminField label="Location" size="xl">
             <AdminInput
               value={content.contact.location}
