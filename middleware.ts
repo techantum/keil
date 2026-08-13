@@ -12,6 +12,13 @@ import {
 
 const PUBLIC_ADMIN_PATHS = ["/admin/login"];
 
+function nextNoStore() {
+  const res = NextResponse.next();
+  res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+  res.headers.set("Pragma", "no-cache");
+  return res;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("admin_session")?.value;
@@ -21,12 +28,12 @@ export async function middleware(request: NextRequest) {
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    return NextResponse.next();
+    return nextNoStore();
   }
 
   if (pathname.startsWith("/admin")) {
     if (PUBLIC_ADMIN_PATHS.some((p) => pathname.startsWith(p))) {
-      return NextResponse.next();
+      return nextNoStore();
     }
 
     if (!session) {
@@ -76,7 +83,9 @@ export async function middleware(request: NextRequest) {
     if (navResolution.action === "rewrite") {
       const url = request.nextUrl.clone();
       url.pathname = navResolution.to;
-      return NextResponse.rewrite(url);
+      const rewrite = NextResponse.rewrite(url);
+      rewrite.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+      return rewrite;
     }
 
     const moduleKey = getModuleForPath(pathname);
@@ -88,7 +97,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return nextNoStore();
 }
 
 export const config = {

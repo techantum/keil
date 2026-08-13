@@ -9,6 +9,7 @@ import { ConsultationProvider } from "@/components/keil/consultation-provider";
 import { getLandingPageBySlug } from "@/lib/landing-pages/store";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type Props = { params: Promise<{ slug: string }> };
 

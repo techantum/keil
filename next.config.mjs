@@ -1,4 +1,12 @@
 /** @type {import('next').NextConfig} */
+const isDev = process.env.NODE_ENV !== "production";
+
+const noStoreHeaders = [
+  { key: "Cache-Control", value: "no-store, no-cache, must-revalidate, max-age=0" },
+  { key: "Pragma", value: "no-cache" },
+  { key: "Expires", value: "0" },
+];
+
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -9,6 +17,27 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-}
+  async headers() {
+    if (isDev) {
+      return [
+        {
+          source: "/:path*",
+          headers: noStoreHeaders,
+        },
+      ];
+    }
 
-export default nextConfig
+    return [
+      {
+        source: "/",
+        headers: noStoreHeaders,
+      },
+      {
+        source: "/lp/:path*",
+        headers: noStoreHeaders,
+      },
+    ];
+  },
+};
+
+export default nextConfig;
