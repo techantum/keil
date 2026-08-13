@@ -14,7 +14,7 @@
         "title": "ENGINEERED EC SHEDS FOR MODERN POULTRY FARMING",
         "subtitle": "First End-to-End EC Shed Solution Provider in AP & Telangana. Among India's Finest Poultry Infrastructure Partners.",
         "description": "KEIL delivers engineered EC shed solutions with complete in-house engineering, manufacturing, installation, commissioning and turnkey support for high-performance poultry operations.\n\nWe build better farms that deliver better control, better performance and better returns – every day.",
-        "image": "/uploads/images/1786538827161_hens-factory-chicken-cages.jpg",
+        "image": "/uploads/images/1786616886473_15957.jpg",
         "badgeText": "",
         "buttonText": "Get a Project Consultation",
         "buttonLink": "",
@@ -101,13 +101,13 @@
             "title": "Mr. Hyder Khan",
             "role": "Director",
             "description": "Leads operations, project execution and client partnerships with a focus on quality delivery and farm performance outcomes.",
-            "image": "/keil/team-2.jpg"
+            "image": "/uploads/images/1786616954195_hyderkhan.jpg"
           },
           {
             "title": "Mr. Rahman Khan",
             "role": "Director",
             "description": "Drives engineering standards, shed design innovation and technical excellence across KEIL’s EC shed projects.",
-            "image": "/keil/team-3.jpg"
+            "image": "/uploads/images/1786616959444_rehman.jpg"
           }
         ]
       },
@@ -211,7 +211,7 @@
           {
             "title": "EC Poultry Sheds",
             "description": "Modern, engineered structures for superior bird comfort, hygiene, and productivity.",
-            "image": "/keil/solution-shed.jpg"
+            "image": "/uploads/images/1786616973203_ecpoultry-sheds.jpg"
           },
           {
             "title": "PUF Insulated Panels",
@@ -221,27 +221,27 @@
           {
             "title": "Ventilation Systems",
             "description": "Advanced airflow solutions for optimal climate and air quality.",
-            "image": "/keil/solution-vent.jpg"
+            "image": "/uploads/images/1786616985193_ventilation.webp"
           },
           {
             "title": "Feeding Systems",
             "description": "Efficient feeding infrastructure for consistent nutrition and better growth.",
-            "image": "/keil/solution-feed.jpg"
+            "image": "/uploads/images/1786616989328_feeding.jpg"
           },
           {
             "title": "Drinking Systems",
             "description": "Clean water delivery systems designed for healthy, stress-free flocks.",
-            "image": "/keil/solution-water.jpg"
+            "image": "/uploads/images/1786616992846_drinking.jpg"
           },
           {
             "title": "Farm Automation",
             "description": "Smart automation for monitoring, control, and operational efficiency.",
-            "image": "/keil/solution-auto.jpg"
+            "image": "/uploads/images/1786616997045_farm.jpeg"
           },
           {
             "title": "Turnkey Projects",
             "description": "Complete project execution from planning to commissioning and hand-holding.",
-            "image": "/keil/solution-turnkey.jpg"
+            "image": "/uploads/images/1786617000722_tunkey.webp"
           }
         ]
       },
@@ -300,32 +300,32 @@
           {
             "title": "Broiler Farms",
             "description": "Efficient environments for fast and healthy bird growth.",
-            "image": "/keil/app-broiler.jpg"
+            "image": "/uploads/images/1786617014883_broilerfarms.webp"
           },
           {
             "title": "Layer Farms",
             "description": "Optimized conditions for higher egg production.",
-            "image": "/keil/app-layer.jpg"
+            "image": "/uploads/images/1786617019369_layerfarms.webp"
           },
           {
             "title": "Breeder Farms",
             "description": "Controlled environments for breeding performance.",
-            "image": "/keil/app-breeder.jpg"
+            "image": "/uploads/images/1786617022941_breeder.webp"
           },
           {
             "title": "Hatcheries",
             "description": "Stable temperature and humidity control.",
-            "image": "/keil/solution-auto.jpg"
+            "image": "/uploads/images/1786617026019_hatcheries-1.jpg"
           },
           {
             "title": "Commercial Poultry Farms",
             "description": "Scalable infrastructure for large operations.",
-            "image": "/keil/solution-shed.jpg"
+            "image": "/uploads/images/1786617033705_commercial.png"
           },
           {
             "title": "Integrated Poultry Projects",
             "description": "Complete solutions for end-to-end poultry businesses.",
-            "image": "/keil/solution-turnkey.jpg"
+            "image": "/uploads/images/1786617040785_integrated.png"
           }
         ]
       },
@@ -386,23 +386,23 @@
         "items": [
           {
             "title": "Project 1",
-            "image": "/keil/project-1.jpg"
+            "image": "/uploads/images/1786617109831_ecpoultry-sheds.jpg"
           },
           {
             "title": "Project 2",
-            "image": "/keil/project-2.jpg"
+            "image": "/uploads/images/1786617113758_farm.jpeg"
           },
           {
             "title": "Project 3",
-            "image": "/keil/project-3.jpg"
+            "image": "/uploads/images/1786617117055_tunkey.webp"
           },
           {
             "title": "Project 4",
-            "image": "/keil/project-4.jpg"
+            "image": "/uploads/images/1786617119791_ventilation.webp"
           },
           {
             "title": "Project 5",
-            "image": "/keil/project-5.jpg"
+            "image": "/uploads/images/1786617125267_drinking.jpg"
           }
         ]
       },
@@ -413,7 +413,7 @@
         "label": "CTA Banner",
         "title": "Ready to Build Better Farms?",
         "description": "Connect with KEIL today for the best EC shed solutions in Andhra Pradesh & Telangana.",
-        "image": "/keil/cta-chicken.jpg",
+        "image": "/uploads/images/1786617493834_ChatGPT_Image_Aug_13__2026__04_08_02_PM.png",
         "buttonText": "90505 40505",
         "buttonLink": "tel:9050540505",
         "buttonAction": "external",
@@ -443,7 +443,7 @@
       "keywords": []
     },
     "createdAt": "2026-08-12T09:16:15.059Z",
-    "updatedAt": "2026-08-12T13:38:19.178Z",
+    "updatedAt": "2026-08-13T10:38:20.322Z",
     "redirect": {
       "mode": "any_slug",
       "paths": []
@@ -453,7 +453,7 @@
       "footerLogo": "/uploads/images/1786528279602_KEIL_LOGO_WITHOUT_CAPTION__1_.png",
       "favicon": "/uploads/icons/1786528341951_fav.png",
       "ogImage": "/uploads/images/1786528344789_fav.png",
-      "primaryColor": "#002B5B",
+      "primaryColor": "#2B3990",
       "secondaryColor": "#E31C23"
     }
   }

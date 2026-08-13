@@ -3,6 +3,8 @@ import { getRepository } from "@/lib/repo";
 import { siteConfig } from "@/lib/seo";
 import { getEnabledModules } from "@/lib/modules/get-enabled-modules";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const repo = getRepository();
   const enabled = await getEnabledModules();
