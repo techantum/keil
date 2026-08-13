@@ -1,0 +1,8 @@
+node_modules
+package-lock.json
+.next/
+.gitignorelogs/
+.env
+.env.local
+
+scripts/_seed-landing.sql

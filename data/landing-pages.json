@@ -1,0 +1,460 @@
+[
+  {
+    "id": "9e6210cc-7a1f-4b7c-854b-f6248a3d3d7a",
+    "title": "KEIL EC SHEDS",
+    "slug": "keil-ec-sheds",
+    "status": "published",
+    "designImage": "/uploads/images/1786536752362_final_ecshed_landingpage.png",
+    "sections": [
+      {
+        "id": "2a05c5da-c227-4302-880e-f1de91d70221",
+        "type": "hero",
+        "enabled": true,
+        "label": "Hero",
+        "title": "ENGINEERED EC SHEDS FOR MODERN POULTRY FARMING",
+        "subtitle": "First End-to-End EC Shed Solution Provider in AP & Telangana. Among India's Finest Poultry Infrastructure Partners.",
+        "description": "KEIL delivers engineered EC shed solutions with complete in-house engineering, manufacturing, installation, commissioning and turnkey support for high-performance poultry operations.\n\nWe build better farms that deliver better control, better performance and better returns – every day.",
+        "image": "/uploads/images/1786538827161_hens-factory-chicken-cages.jpg",
+        "badgeText": "",
+        "buttonText": "Get a Project Consultation",
+        "buttonLink": "",
+        "buttonAction": "modal",
+        "secondaryButtonText": "Explore EC Shed Solutions",
+        "secondaryButtonLink": "#solutions",
+        "secondaryButtonAction": "section",
+        "items": [
+          {
+            "title": "Engineered Solutions",
+            "icon": "settings"
+          },
+          {
+            "title": "End-to-End Execution",
+            "icon": "workflow"
+          },
+          {
+            "title": "Built for Performance",
+            "icon": "shield-check"
+          },
+          {
+            "title": "Trusted Across AP & Telangana",
+            "icon": "map-pin"
+          }
+        ]
+      },
+      {
+        "id": "baf69ba1-3b97-4feb-bf49-42df09c6eb30",
+        "type": "about",
+        "enabled": true,
+        "label": "About",
+        "title": "Engineering Better Infrastructure for Poultry Farming",
+        "subtitle": "ABOUT KEIL",
+        "description": "KEIL is a Hyderabad-based engineering and infrastructure company focused on poultry farm development. We combine structural engineering, environmental control systems and practical farm execution to deliver sheds that perform in real operating conditions — not just on paper.\n\nWhether you are setting up a new farm or upgrading an existing facility, KEIL supports you with end-to-end EC shed solutions built for performance, durability and long-term farm profitability.\n\nFrom planning and shed design through construction, equipment integration and handover, our team stays accountable at every stage.",
+        "image": "/uploads/images/1786538959125_15957.jpg",
+        "badgeText": "BUILDING INDIA GREENER TOMORROW",
+        "items": [
+          {
+            "title": "Established",
+            "description": "2021",
+            "icon": "calendar"
+          },
+          {
+            "title": "Location",
+            "description": "Hyderabad, Telangana",
+            "icon": "map-pin"
+          },
+          {
+            "title": "Industry",
+            "description": "Engineering & Infrastructure",
+            "icon": "building"
+          },
+          {
+            "title": "Core Focus",
+            "description": "EC Shed Solutions",
+            "icon": "target"
+          },
+          {
+            "title": "Our Strength",
+            "description": "Turnkey Project Execution",
+            "icon": "user-cog"
+          }
+        ],
+        "subHeading": "From Concept to Commissioning"
+      },
+      {
+        "id": "8f81b398-fd74-40a6-9875-773ac187c6b7",
+        "type": "team",
+        "enabled": true,
+        "label": "Team",
+        "title": "MANAGEMENT & CORE TEAM",
+        "subtitle": "Experienced Leadership, Execution-Driven Excellence.",
+        "buttonText": "Get a Project Consultation",
+        "buttonLink": "",
+        "buttonAction": "modal",
+        "items": [
+          {
+            "title": "Mr. Hidayath Khan",
+            "role": "Chairman / Chairperson",
+            "description": "Provides strategic direction and oversees KEIL’s long-term vision for sustainable poultry infrastructure development across the region.",
+            "image": "/keil/team-1.jpg"
+          },
+          {
+            "title": "Mr. Hyder Khan",
+            "role": "Director",
+            "description": "Leads operations, project execution and client partnerships with a focus on quality delivery and farm performance outcomes.",
+            "image": "/keil/team-2.jpg"
+          },
+          {
+            "title": "Mr. Rahman Khan",
+            "role": "Director",
+            "description": "Drives engineering standards, shed design innovation and technical excellence across KEIL’s EC shed projects.",
+            "image": "/keil/team-3.jpg"
+          }
+        ]
+      },
+      {
+        "id": "6e8459f6-4dcb-4bbe-acab-6c46915c3e5c",
+        "type": "features",
+        "enabled": true,
+        "showInNav": true,
+        "label": "Why Us",
+        "navLabel": "Why KEIL",
+        "title": "First End-to-End EC Shed Solution Provider in AP & Telangana. Among India's Finest.",
+        "subtitle": "WHY KEIL?",
+        "description": "KEIL is the first company in AP & Telangana to deliver complete end-to-end EC shed solutions — from concept and engineering to manufacturing, installation, commissioning, and long-term support.",
+        "descriptionSecondary": "Our integrated approach ensures better control, better performance and better farm efficiency for poultry operations.",
+        "promiseTitle": "Our Promise",
+        "promiseItems": [
+          "Better Control.",
+          "Better Performance.",
+          "Better Farm Efficiency."
+        ],
+        "buttonText": "",
+        "buttonLink": "",
+        "items": [
+          {
+            "title": "First End-to-End EC Shed Provider in AP & Telangana",
+            "description": "Complete solutions from concept to commissioning.",
+            "icon": "settings"
+          },
+          {
+            "title": "Among India's Finest",
+            "description": "Recognized for quality, innovation, and customer satisfaction.",
+            "icon": "award"
+          },
+          {
+            "title": "Trusted Engineering Expertise",
+            "description": "Experienced engineers delivering reliable, high-performance sheds.",
+            "icon": "shield-check"
+          },
+          {
+            "title": "Quality & Reliability",
+            "description": "Premium materials and precision engineering for long-term durability.",
+            "icon": "badge-check"
+          },
+          {
+            "title": "End-to-End Execution",
+            "description": "In-house manufacturing, installation, commissioning, and support.",
+            "icon": "network"
+          },
+          {
+            "title": "Long-Term Partnership",
+            "description": "Reliable support and maintenance for lasting farm performance.",
+            "icon": "users"
+          }
+        ]
+      },
+      {
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "type": "leaders",
+        "enabled": true,
+        "showInNav": false,
+        "label": "Industry Leaders",
+        "title": "WHY INDUSTRY LEADERS CHOOSE KEIL",
+        "subtitle": "WHY INDUSTRY LEADERS CHOOSE KEIL",
+        "description": "Proven capability, disciplined execution, and long-term partnership — the reasons farms across AP & Telangana trust KEIL.",
+        "items": [
+          {
+            "title": "First End-to-End EC Shed Solution Provider in AP & Telangana",
+            "icon": "trophy"
+          },
+          {
+            "title": "Among India's Best & Finest EC Shed Solution Partners",
+            "icon": "award"
+          },
+          {
+            "title": "End-to-End Capabilities from Concept to Commissioning",
+            "icon": "settings"
+          },
+          {
+            "title": "Proven Quality, Strong Execution & Reliable Delivery",
+            "icon": "shield-check"
+          },
+          {
+            "title": "Long-Term Support for Better Performance & Higher Returns",
+            "icon": "users"
+          }
+        ]
+      },
+      {
+        "id": "cc5bd387-1017-4f15-9443-626d1bbcb884",
+        "type": "solutions",
+        "enabled": true,
+        "showInNav": true,
+        "label": "Solutions",
+        "navLabel": "Solutions",
+        "subtitle": "OUR EC SHED SOLUTIONS",
+        "title": "Complete EC Shed Solutions. One Integrated Approach.",
+        "buttonText": "Get a Project Consultation",
+        "buttonLink": "",
+        "buttonAction": "modal",
+        "items": [
+          {
+            "title": "EC Poultry Sheds",
+            "description": "Modern, engineered structures for superior bird comfort, hygiene, and productivity.",
+            "image": "/keil/solution-shed.jpg"
+          },
+          {
+            "title": "PUF Insulated Panels",
+            "description": "High-performance panels for temperature control and energy efficiency.",
+            "image": "/keil/solution-panels.png"
+          },
+          {
+            "title": "Ventilation Systems",
+            "description": "Advanced airflow solutions for optimal climate and air quality.",
+            "image": "/keil/solution-vent.jpg"
+          },
+          {
+            "title": "Feeding Systems",
+            "description": "Efficient feeding infrastructure for consistent nutrition and better growth.",
+            "image": "/keil/solution-feed.jpg"
+          },
+          {
+            "title": "Drinking Systems",
+            "description": "Clean water delivery systems designed for healthy, stress-free flocks.",
+            "image": "/keil/solution-water.jpg"
+          },
+          {
+            "title": "Farm Automation",
+            "description": "Smart automation for monitoring, control, and operational efficiency.",
+            "image": "/keil/solution-auto.jpg"
+          },
+          {
+            "title": "Turnkey Projects",
+            "description": "Complete project execution from planning to commissioning and hand-holding.",
+            "image": "/keil/solution-turnkey.jpg"
+          }
+        ]
+      },
+      {
+        "id": "46c46e34-ea03-465c-8038-12e4e35811c2",
+        "type": "benefits",
+        "enabled": true,
+        "showInNav": true,
+        "label": "Key Benefits",
+        "navLabel": "Benefits",
+        "subtitle": "KEY BENEFITS",
+        "title": "Better Control. Better Performance. Better Farm Efficiency.",
+        "items": [
+          {
+            "title": "Better Environment Control",
+            "description": "Maintain ideal temperature, ventilation, and air quality.",
+            "icon": "thermometer"
+          },
+          {
+            "title": "Improved Bird Comfort",
+            "description": "Create a comfortable environment for healthier, stress-free birds.",
+            "icon": "heart"
+          },
+          {
+            "title": "Higher Farm Productivity",
+            "description": "Consistent performance with improved FCR and higher returns.",
+            "icon": "gauge"
+          },
+          {
+            "title": "Energy-Efficient Operations",
+            "description": "Advanced systems reduce energy consumption and operating costs.",
+            "icon": "zap"
+          },
+          {
+            "title": "Reduced Maintenance",
+            "description": "Durable materials and smart design minimize downtime.",
+            "icon": "wrench"
+          },
+          {
+            "title": "Leadership & Trust",
+            "description": "First in AP & Telangana. One of India's finest EC shed solution providers.",
+            "icon": "award"
+          }
+        ]
+      },
+      {
+        "id": "b7e8f9a0-1234-5678-9abc-def012345678",
+        "type": "applications",
+        "enabled": true,
+        "showInNav": true,
+        "label": "Applications",
+        "navLabel": "Applications",
+        "subtitle": "APPLICATIONS",
+        "title": "EC Shed Solutions for Every Poultry Operation",
+        "items": [
+          {
+            "title": "Broiler Farms",
+            "description": "Efficient environments for fast and healthy bird growth.",
+            "image": "/keil/app-broiler.jpg"
+          },
+          {
+            "title": "Layer Farms",
+            "description": "Optimized conditions for higher egg production.",
+            "image": "/keil/app-layer.jpg"
+          },
+          {
+            "title": "Breeder Farms",
+            "description": "Controlled environments for breeding performance.",
+            "image": "/keil/app-breeder.jpg"
+          },
+          {
+            "title": "Hatcheries",
+            "description": "Stable temperature and humidity control.",
+            "image": "/keil/solution-auto.jpg"
+          },
+          {
+            "title": "Commercial Poultry Farms",
+            "description": "Scalable infrastructure for large operations.",
+            "image": "/keil/solution-shed.jpg"
+          },
+          {
+            "title": "Integrated Poultry Projects",
+            "description": "Complete solutions for end-to-end poultry businesses.",
+            "image": "/keil/solution-turnkey.jpg"
+          }
+        ]
+      },
+      {
+        "id": "c0d1e2f3-a4b5-6789-cdef-0123456789ab",
+        "type": "process",
+        "enabled": true,
+        "showInNav": true,
+        "label": "Process",
+        "navLabel": "Process",
+        "title": "OUR PROCESS",
+        "subtitle": "From concept to commissioning — one team, one complete solution.",
+        "items": [
+          {
+            "title": "Consultation &\nPlanning",
+            "description": "Understanding needs and site evaluation.",
+            "icon": "01"
+          },
+          {
+            "title": "Design &\nEngineering",
+            "description": "Custom design with precise engineering.",
+            "icon": "02"
+          },
+          {
+            "title": "Manufacturing &\nProcurement",
+            "description": "Quality manufacturing and material sourcing.",
+            "icon": "03"
+          },
+          {
+            "title": "Installation &\nExecution",
+            "description": "On-site installation with expert team.",
+            "icon": "04"
+          },
+          {
+            "title": "Testing &\nCommissioning",
+            "description": "Rigorous testing for optimal performance.",
+            "icon": "05"
+          },
+          {
+            "title": "After-Sales Support &\nMaintenance",
+            "description": "Reliable support for long-term performance.",
+            "icon": "06"
+          }
+        ]
+      },
+      {
+        "id": "0a15a66f-2af9-467a-b160-2791c3254280",
+        "type": "gallery",
+        "enabled": true,
+        "showInNav": true,
+        "label": "Projects",
+        "navLabel": "Projects",
+        "title": "OUR RECENT PROJECTS",
+        "subtitle": "Delivering Excellence Across Andhra Pradesh & Telangana",
+        "buttonText": "Get a Project Consultation",
+        "buttonLink": "",
+        "buttonAction": "modal",
+        "items": [
+          {
+            "title": "Project 1",
+            "image": "/keil/project-1.jpg"
+          },
+          {
+            "title": "Project 2",
+            "image": "/keil/project-2.jpg"
+          },
+          {
+            "title": "Project 3",
+            "image": "/keil/project-3.jpg"
+          },
+          {
+            "title": "Project 4",
+            "image": "/keil/project-4.jpg"
+          },
+          {
+            "title": "Project 5",
+            "image": "/keil/project-5.jpg"
+          }
+        ]
+      },
+      {
+        "id": "9f37fc75-1a29-4517-8a88-28c514d668a1",
+        "type": "cta",
+        "enabled": true,
+        "label": "CTA Banner",
+        "title": "Ready to Build Better Farms?",
+        "description": "Connect with KEIL today for the best EC shed solutions in Andhra Pradesh & Telangana.",
+        "image": "/keil/cta-chicken.jpg",
+        "buttonText": "90505 40505",
+        "buttonLink": "tel:9050540505",
+        "buttonAction": "external",
+        "items": [
+          {
+            "title": "Expert Engineering",
+            "icon": "settings"
+          },
+          {
+            "title": "Quality Assured",
+            "icon": "shield-check"
+          },
+          {
+            "title": "On-Time Delivery",
+            "icon": "truck"
+          },
+          {
+            "title": "24/7 Support & Service",
+            "icon": "headphones"
+          }
+        ]
+      }
+    ],
+    "seo": {
+      "title": "KEIL EC SHEDS",
+      "description": "",
+      "keywords": []
+    },
+    "createdAt": "2026-08-12T09:16:15.059Z",
+    "updatedAt": "2026-08-12T13:38:19.178Z",
+    "redirect": {
+      "mode": "any_slug",
+      "paths": []
+    },
+    "branding": {
+      "navbarLogo": "/uploads/images/1786528276366_KEIL_LOGO_WITHOUT_CAPTION__1_.png",
+      "footerLogo": "/uploads/images/1786528279602_KEIL_LOGO_WITHOUT_CAPTION__1_.png",
+      "favicon": "/uploads/icons/1786528341951_fav.png",
+      "ogImage": "/uploads/images/1786528344789_fav.png",
+      "primaryColor": "#002B5B",
+      "secondaryColor": "#E31C23"
+    }
+  }
+]

@@ -1,0 +1,26 @@
+-- Landing page sections are stored as JSONB on landing_pages.sections.
+-- No column migration required for Why KEIL / Industry Leaders fields.
+--
+-- features section extras (Why KEIL):
+--   descriptionSecondary text
+--   promiseTitle text
+--   promiseItems text[]
+--   promiseImage text (optional)
+--
+-- New section type:
+--   "leaders" — full-width navy bar (WHY INDUSTRY LEADERS CHOOSE KEIL)
+--   items: [{ title, icon }]
+--
+--   "process" — OUR PROCESS timeline steps
+--   items: [{ title, description, icon: "01".."06" }]
+--
+--   "gallery" — OUR RECENT PROJECTS carousel
+--   subtitle + items: [{ title, image }]
+--
+-- Public API:  GET /api/landing-pages/[slug]
+-- Admin APIs:  GET/PUT/DELETE /api/admin/landing-pages/[id]
+--              GET/POST /api/admin/landing-pages
+--              POST /api/admin/landing-pages/analyze
+-- Consultation: POST /api/consultation
+
+SELECT 1;

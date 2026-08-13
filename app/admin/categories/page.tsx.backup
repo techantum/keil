@@ -1,0 +1,220 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Plus, Search, Edit, Trash2 } from "lucide-react"
+import type { Category } from "@/types"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { useToastContext } from "@/components/providers/toast-provider"
+
+export default function AdminCategoriesPage() {
+  const { success, error } = useToastContext()
+  const [categories, setCategories] = useState<Category[]>([])
+  const [search, setSearch] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null)
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+  })
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch("/api/admin/categories")
+      const data = await response.json()
+      setCategories(data)
+    } catch (err) {
+      error("Failed to fetch categories", "Please try refreshing the page")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleAddCategory = () => {
+    setEditingCategory(null)
+    setFormData({
+      name: "",
+      description: "",
+    })
+    setDialogOpen(true)
+  }
+
+  const handleEditCategory = (category: Category) => {
+    setEditingCategory(category)
+    setFormData({
+      name: category.name,
+      description: category.description,
+    })
+    setDialogOpen(true)
+  }
+
+  const handleSaveCategory = async () => {
+    setSaving(true)
+    try {
+      const url = editingCategory ? `/api/admin/categories/${editingCategory.id}` : "/api/admin/categories"
+      const method = editingCategory ? "PATCH" : "POST"
+
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        setDialogOpen(false)
+        fetchCategories()
+        success(
+          editingCategory ? "Category updated successfully" : "Category created successfully",
+          `${formData.name} has been ${editingCategory ? "updated" : "added to"} your categories`
+        )
+      } else {
+        const errorData = await response.json()
+        error("Failed to save category", errorData.error || "Please check your input and try again")
+      }
+    } catch (err) {
+      error("Failed to save category", "Please check your connection and try again")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleDelete = async (id: string) => {
+    const categoryName = categories.find(c => c.id === id)?.name || "category"
+    
+    if (!confirm(`Are you sure you want to delete "${categoryName}"? This action cannot be undone.`)) return
+
+    try {
+      const response = await fetch(`/api/admin/categories/${id}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        setCategories(categories.filter((c) => c.id !== id))
+        success("Category deleted successfully", `${categoryName} has been removed from your categories`)
+      } else {
+        error("Failed to delete category", "Please try again")
+      }
+    } catch (err) {
+      error("Failed to delete category", "Please check your connection and try again")
+    }
+  }
+
+  const filteredCategories = categories.filter((c) =>
+    c.name.toLowerCase().includes(search.toLowerCase()) ||
+    c.description.toLowerCase().includes(search.toLowerCase())
+  )
+
+  if (loading) {
+    return <div className="p-8">Loading...</div>
+  }
+
+  return (
+    <div className="p-8">
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Categories</h1>
+          <p className="text-gray-600 mt-1">Manage your product categories</p>
+        </div>
+        <Button onClick={handleAddCategory}>
+          <Plus className="mr-2 h-4 w-4" />
+          Add Category
+        </Button>
+      </div>
+
+      <div className="mb-6">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Input
+            placeholder="Search categories..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-4">
+        {filteredCategories.map((category) => (
+          <Card key={category.id}>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">{category.name}</CardTitle>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={() => handleEditCategory(category)}>
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => handleDelete(category.id)}>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600">{category.description}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{editingCategory ? "Edit Category" : "Add New Category"}</DialogTitle>
+            <DialogDescription>
+              {editingCategory ? "Update the category details below" : "Enter the details for the new category"}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            <div>
+              <Label htmlFor="name" className="mb-2 block">Category Name*</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="Enter category name"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="description" className="mb-2 block">Description*</Label>
+              <Textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                placeholder="Enter category description"
+                rows={3}
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveCategory} disabled={saving}>
+              {saving ? "Saving..." : editingCategory ? "Update Category" : "Create Category"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}

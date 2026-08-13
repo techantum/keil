@@ -1,0 +1,29 @@
+module.exports = {
+  apps: [
+    {
+      name: "kk-engineering",
+      script: "node_modules/next/dist/bin/next",
+      args: "start",
+      cwd: "./",
+      instances: 1,
+      exec_mode: "fork",
+      env: {
+        NODE_ENV: "production",
+        PORT: 8142,
+        ADMIN_USERNAME: "admin",
+        ADMIN_PASSWORD: "admin123",
+        SESSION_SECRET: "your-secret-key-change-in-production-kkengineering-2024",
+        MONGODB_URI: "mongodb+srv://kkengineering:kkengineering123@kkengineering-cluster.plvbx7e.mongodb.net/kkengineering?retryWrites=true&w=majority&appName=kkengineering-cluster",
+        USE_MONGODB: "true",
+        NEXT_PUBLIC_SITE_URL: "http://31.97.224.169:8142",
+      },
+      error_file: "./logs/err.log",
+      out_file: "./logs/out.log",
+      log_date_format: "YYYY-MM-DD HH:mm:ss Z",
+      merge_logs: true,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: "1G",
+    },
+  ],
+}

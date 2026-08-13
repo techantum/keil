@@ -1,0 +1,187 @@
+import type { Metadata } from "next"
+import { notFound } from "next/navigation"
+import { Header } from "@/components/common/header"
+import { Footer } from "@/components/common/footer"
+import { WhatsAppButton } from "@/components/common/whatsapp-button"
+import { ProductGrid } from "@/components/products/product-grid"
+import { ProductFilters } from "@/components/products/product-filters"
+import { generateSEOMetadata } from "@/lib/seo"
+
+interface PageProps {
+  params: {
+    categorySlug: string
+    subcategory: string
+  }
+  searchParams: {
+    search?: string
+    inStock?: string
+    sort?: string
+  }
+}
+
+async function getSubcategoryProducts(categorySlug: string, subcategorySlug: string, searchParams: any) {
+  try {
+    // First, get the subcategory to verify it exists and get its ID
+    const subcatResponse = await fetch(`/api/subcategories`, {
+      next: { revalidate: 300 }
+    })
+    const subcategories = await subcatResponse.json()
+    
+    const subcategory = subcategories.find((sub: any) => 
+      sub.slug === subcategorySlug && sub.category?.slug === categorySlug
+    )
+    
+    if (!subcategory) {
+      return { products: [], subcategory: null, category: null }
+    }
+
+    // Build query parameters
+    const params = new URLSearchParams()
+    params.append('subcategory', subcategory.id)
+    
+    if (searchParams.search) {
+      params.append('search', searchParams.search)
+    }
+    if (searchParams.inStock) {
+      params.append('inStock', searchParams.inStock)
+    }
+    if (searchParams.sort) {
+      params.append('sort', searchParams.sort)
+    }
+
+    const response = await fetch(
+      `/api/products?${params.toString()}`,
+      { next: { revalidate: 300 } }
+    )
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch products')
+    }
+
+    const products = await response.json()
+
+    return {
+      products,
+      subcategory,
+      category: subcategory.category
+    }
+  } catch (error) {
+    console.error('Error fetching products:', error)
+    return { products: [], subcategory: null, category: null }
+  }
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { subcategory, category } = await getSubcategoryProducts(params.categorySlug, params.subcategory, {})
+
+  if (!subcategory) {
+    return generateSEOMetadata({
+      title: "Products Not Found",
+      description: "The requested product category could not be found.",
+    })
+  }
+
+  return generateSEOMetadata({
+    title: `${subcategory.name} - ${category?.name} Products`,
+    description: `Browse our ${subcategory.name} products in the ${category?.name} category. ${subcategory.description}`,
+    path: `/products/category/${params.categorySlug}/${params.subcategory}`,
+  })
+}
+
+export default async function SubcategoryProductsPage({ params, searchParams }: PageProps) {
+  const { products, subcategory, category } = await getSubcategoryProducts(
+    params.categorySlug, 
+    params.subcategory, 
+    searchParams
+  )
+
+  if (!subcategory || !category) {
+    notFound()
+  }
+
+  return (
+    <>
+      <Header />
+      <main className="min-h-screen bg-gray-50">
+        {/* Breadcrumb and Header */}
+        <section className="bg-white border-b">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8">
+            {/* Breadcrumb */}
+            <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+              <a href="/products" className="hover:text-primary">Products</a>
+              <span>/</span>
+              <a href={`/products?category=${category.slug}`} className="hover:text-primary">
+                {category.name}
+              </a>
+              <span>/</span>
+              <span className="text-gray-900 font-medium">{subcategory.name}</span>
+            </nav>
+
+            {/* Page Header */}
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  {subcategory.name}
+                </h1>
+                <p className="text-lg text-gray-600 max-w-2xl">
+                  {subcategory.description}
+                </p>
+                <div className="flex items-center gap-4 mt-4">
+                  <span className="text-sm text-gray-500">
+                    Category: <span className="font-medium text-primary">{category.name}</span>
+                  </span>
+                  <span className="text-sm text-gray-500">
+                    {products.length} product{products.length !== 1 ? 's' : ''} found
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Products Section */}
+        <section className="py-12">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Filters Sidebar */}
+              <aside className="w-full lg:w-64 flex-shrink-0">
+                <ProductFilters />
+              </aside>
+
+              {/* Products Grid */}
+              <div className="flex-1">
+                {products.length > 0 ? (
+                  <ProductGrid products={products} />
+                ) : (
+                  <div className="text-center py-16">
+                    <div className="max-w-md mx-auto">
+                      <div className="text-gray-400 mb-4">
+                        <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m13-8l-4 4m0 0l-4-4m4 4V3" />
+                        </svg>
+                      </div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">
+                        No products found
+                      </h3>
+                      <p className="text-gray-600 mb-6">
+                        There are currently no products in this subcategory. Please check back later or browse other categories.
+                      </p>
+                      <a
+                        href="/products"
+                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                      >
+                        Browse All Products
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+      <WhatsAppButton />
+    </>
+  )
+}

@@ -1,0 +1,39 @@
+import mongoose, { Schema, type Document } from "mongoose"
+import type { Enquiry as EnquiryType } from "@/types"
+
+export interface EnquiryDocument extends Omit<EnquiryType, "id">, Document {
+  _id: mongoose.Types.ObjectId
+}
+
+// Force deletion of existing model to clear cache
+if (mongoose.models.Enquiry) {
+  delete mongoose.models.Enquiry
+}
+
+const EnquirySchema = new Schema<EnquiryDocument>(
+  {
+    type: {
+      type: String,
+      enum: ["general", "product", "general_product", "bulk", "service"],
+      default: "general",
+    },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: String,
+    company: String,
+    productName: String,
+    productCategory: String, // Category of the product
+    selectedProductId: String, // ID of selected product
+    message: String,
+    status: {
+      type: String,
+      enum: ["pending", "contacted", "resolved"],
+      default: "pending",
+    },
+  },
+  {
+    timestamps: true,
+  },
+)
+
+export const EnquiryModel = mongoose.model<EnquiryDocument>("Enquiry", EnquirySchema)

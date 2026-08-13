@@ -1,0 +1,314 @@
+"use client"
+
+import { useState, useRef } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Upload, Link, X, Play, Image as ImageIcon } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+
+interface MediaUploadProps {
+  value: string
+  onChange: (url: string) => void
+  accept?: "image" | "video" | "both"
+  maxWidth?: number
+  maxHeight?: number
+  maxSizeMB?: number
+  aspectRatio?: string // e.g., "16:9", "4:3", "1:1"
+  placeholder?: string
+}
+
+export function MediaUpload({
+  value,
+  onChange,
+  accept = "both",
+  maxWidth = 1920,
+  maxHeight = 1080,
+  maxSizeMB = 10,
+  aspectRatio,
+  placeholder = "Upload media or enter URL"
+}: MediaUploadProps) {
+  const [uploading, setUploading] = useState(false)
+  const [inputMode, setInputMode] = useState<"upload" | "url">("upload")
+  const [urlInput, setUrlInput] = useState(value)
+  const [error, setError] = useState("")
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const isVideo = (url: string) => {
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi']
+    return videoExtensions.some(ext => url.toLowerCase().includes(ext)) || 
+           url.includes('youtube.com') || url.includes('vimeo.com')
+  }
+
+  const isImage = (url: string) => {
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg']
+    return imageExtensions.some(ext => url.toLowerCase().includes(ext))
+  }
+
+  const getAcceptString = () => {
+    if (accept === "image") return "image/*"
+    if (accept === "video") return "video/*"
+    return "image/*,video/*"
+  }
+
+  const validateFile = (file: File): string | null => {
+    // Check file size
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      return `File size must be less than ${maxSizeMB}MB`
+    }
+
+    // Check file type
+    if (accept === "image" && !file.type.startsWith("image/")) {
+      return "Only image files are allowed"
+    }
+    if (accept === "video" && !file.type.startsWith("video/")) {
+      return "Only video files are allowed"
+    }
+
+    return null
+  }
+
+  const validateDimensions = (file: File): Promise<string | null> => {
+    return new Promise((resolve) => {
+      if (file.type.startsWith("video/")) {
+        // For videos, we'll skip dimension validation for now
+        resolve(null)
+        return
+      }
+
+      if (!file.type.startsWith("image/")) {
+        resolve(null)
+        return
+      }
+
+      const img = new Image()
+      img.onload = () => {
+        if (img.width > maxWidth || img.height > maxHeight) {
+          resolve(`Image dimensions must be less than ${maxWidth}x${maxHeight}px`)
+        } else {
+          resolve(null)
+        }
+      }
+      img.onerror = () => resolve("Invalid image file")
+      img.src = URL.createObjectURL(file)
+    })
+  }
+
+  const handleFileUpload = async (file: File) => {
+    setError("")
+    setUploading(true)
+
+    // Validate file
+    const fileError = validateFile(file)
+    if (fileError) {
+      setError(fileError)
+      setUploading(false)
+      return
+    }
+
+    // Validate dimensions
+    const dimensionError = await validateDimensions(file)
+    if (dimensionError) {
+      setError(dimensionError)
+      setUploading(false)
+      return
+    }
+
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        onChange(result.url)
+        setError("")
+      } else {
+        setError(result.error || "Upload failed")
+      }
+    } catch (err) {
+      setError("Upload failed. Please try again.")
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    const files = Array.from(e.dataTransfer.files)
+    if (files.length > 0) {
+      handleFileUpload(files[0])
+    }
+  }
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files && files.length > 0) {
+      handleFileUpload(files[0])
+    }
+  }
+
+  const handleUrlSubmit = () => {
+    if (!urlInput.trim()) {
+      setError("Please enter a valid URL")
+      return
+    }
+
+    // Basic URL validation
+    try {
+      new URL(urlInput)
+      onChange(urlInput)
+      setError("")
+    } catch {
+      setError("Please enter a valid URL")
+    }
+  }
+
+  const renderPreview = () => {
+    if (!value) return null
+
+    const isVideoFile = isVideo(value)
+    
+    return (
+      <div className="flex items-center gap-3 p-2 bg-gray-50 rounded border">
+        <div className="relative">
+          {isVideoFile ? (
+            <div className="relative bg-gray-100 rounded overflow-hidden w-12 h-12">
+              <video 
+                src={value} 
+                className="w-full h-full object-cover"
+                controls={false}
+                muted
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Play className="h-4 w-4 text-white bg-black bg-opacity-50 rounded-full p-1" />
+              </div>
+            </div>
+          ) : (
+            <img 
+              src={value} 
+              alt="Preview" 
+              className="w-12 h-12 object-cover rounded border"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/placeholder.jpg"
+              }}
+            />
+          )}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm text-gray-600 truncate">{value}</p>
+        </div>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-8 w-8 p-0"
+          onClick={() => onChange("")}
+        >
+          <X className="h-3 w-3" />
+        </Button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-3">
+      {/* Mode Toggle */}
+      <div className="flex gap-2">
+        <Button
+          type="button"
+          variant={inputMode === "upload" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setInputMode("upload")}
+        >
+          <Upload className="h-4 w-4 mr-1" />
+          Upload
+        </Button>
+        <Button
+          type="button"
+          variant={inputMode === "url" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setInputMode("url")}
+        >
+          <Link className="h-4 w-4 mr-1" />
+          URL
+        </Button>
+      </div>
+
+      {/* Error Display */}
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {/* Upload Mode */}
+      {inputMode === "upload" && (
+        <div
+          className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-gray-400 transition-colors"
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept={getAcceptString()}
+            onChange={handleFileSelect}
+            className="hidden"
+          />
+          
+          <div className="flex flex-col items-center gap-2">
+            {accept === "image" ? (
+              <ImageIcon className="h-6 w-6 text-gray-400" />
+            ) : accept === "video" ? (
+              <Play className="h-6 w-6 text-gray-400" />
+            ) : (
+              <Upload className="h-6 w-6 text-gray-400" />
+            )}
+            <div>
+              <p className="text-sm font-medium">
+                {uploading ? "Uploading..." : "Click to browse"}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Max {maxSizeMB}MB, {maxWidth}x{maxHeight}px
+                {aspectRatio && ` • ${aspectRatio}`}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* URL Mode */}
+      {inputMode === "url" && (
+        <div className="flex gap-2">
+          <Input
+            placeholder={placeholder}
+            value={urlInput}
+            onChange={(e) => setUrlInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleUrlSubmit()}
+          />
+          <Button type="button" onClick={handleUrlSubmit} disabled={!urlInput.trim()}>
+            Set
+          </Button>
+        </div>
+      )}
+
+      {/* Preview */}
+      {value && renderPreview()}
+
+      {/* Info - Only show when no media is selected */}
+      {!value && (
+        <div className="text-xs text-gray-500 space-y-1">
+          <p>Accepted: {accept === "both" ? "Images & Videos" : accept === "image" ? "Images (JPG, PNG, WebP)" : "Videos (MP4, WebM)"}</p>
+          {aspectRatio && <p>Recommended: {aspectRatio} aspect ratio</p>}
+        </div>
+      )}
+    </div>
+  )
+}

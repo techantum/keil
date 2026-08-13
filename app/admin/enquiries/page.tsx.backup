@@ -1,0 +1,321 @@
+"use client"
+
+
+import { useEffect, useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import type { Enquiry } from "@/types"
+import { Mail, Phone, Calendar, Search, Filter } from "lucide-react"
+
+export default function AdminEnquiriesPage() {
+  const [enquiries, setEnquiries] = useState<Enquiry[]>([])
+  const [loading, setLoading] = useState(true)
+  const [statusFilter, setStatusFilter] = useState<string>("all")
+  const [typeFilter, setTypeFilter] = useState<string>("all")
+  const [searchQuery, setSearchQuery] = useState("")
+
+  useEffect(() => {
+    fetchEnquiries()
+  }, [])
+
+  const fetchEnquiries = async () => {
+    try {
+      const response = await fetch("/api/admin/enquiries")
+      const data = await response.json()
+      setEnquiries(data)
+    } catch (error) {
+      console.error("Failed to fetch enquiries:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const updateStatus = async (id: string, status: string) => {
+    try {
+      const response = await fetch(`/api/admin/enquiries/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      })
+
+      if (response.ok) {
+        const updated = await response.json()
+        setEnquiries(enquiries.map((e) => (e.id === id ? updated : e)))
+      }
+    } catch (error) {
+      console.error("Failed to update enquiry:", error)
+    }
+  }
+
+  // Filter enquiries based on status, type, and search query
+  const filteredEnquiries = enquiries.filter((enquiry) => {
+    const matchesStatus = statusFilter === "all" || enquiry.status === statusFilter
+    const matchesType = typeFilter === "all" || enquiry.type === typeFilter
+    const matchesSearch = 
+      searchQuery === "" ||
+      enquiry.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      enquiry.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      enquiry.company?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      enquiry.productName?.toLowerCase().includes(searchQuery.toLowerCase())
+
+    return matchesStatus && matchesType && matchesSearch
+  })
+
+  // Calculate stats
+  const stats = {
+    total: enquiries.length,
+    pending: enquiries.filter(e => e.status === "pending").length,
+    contacted: enquiries.filter(e => e.status === "contacted").length,
+    resolved: enquiries.filter(e => e.status === "resolved").length,
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 border-yellow-300"
+      case "contacted":
+        return "bg-blue-100 text-blue-800 border-blue-300"
+      case "resolved":
+        return "bg-green-100 text-green-800 border-green-300"
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-300"
+    }
+  }
+
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case "product":
+        return "bg-purple-100 text-purple-800 border-purple-300"
+      case "general_product":
+        return "bg-indigo-100 text-indigo-800 border-indigo-300"
+      case "general":
+        return "bg-gray-100 text-gray-800 border-gray-300"
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-300"
+    }
+  }
+
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case "general_product":
+        return "General Product"
+      case "product":
+        return "Product"
+      case "general":
+        return "General"
+      default:
+        return type
+    }
+  }
+
+  if (loading) {
+    return <div className="p-8">Loading...</div>
+  }
+
+  return (
+    <div className="p-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Enquiries</h1>
+        <p className="text-gray-600 mt-1">Manage customer enquiries and requests</p>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid gap-4 md:grid-cols-4 mb-6">
+        <Card>
+          <CardContent className="p-4">
+            <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
+            <p className="text-sm text-gray-600">Total Enquiries</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="text-2xl font-bold text-yellow-600">{stats.pending}</div>
+            <p className="text-sm text-gray-600">Pending</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="text-2xl font-bold text-blue-600">{stats.contacted}</div>
+            <p className="text-sm text-gray-600">Contacted</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="text-2xl font-bold text-green-600">{stats.resolved}</div>
+            <p className="text-sm text-gray-600">Resolved</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Filters */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Filter className="h-5 w-5" />
+            Filters
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <Input
+                  placeholder="Search by name, email, company, or product..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-full md:w-[200px]">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="contacted">Contacted</SelectItem>
+                <SelectItem value="resolved">Resolved</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={typeFilter} onValueChange={setTypeFilter}>
+              <SelectTrigger className="w-full md:w-[200px]">
+                <SelectValue placeholder="Filter by type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="general">General</SelectItem>
+                <SelectItem value="product">Product</SelectItem>
+                <SelectItem value="general_product">General Product</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Results */}
+      <div className="mb-4">
+        <p className="text-sm text-gray-600">
+          Showing {filteredEnquiries.length} of {enquiries.length} enquiries
+        </p>
+      </div>
+
+      {/* Enquiries List */}
+      <div className="space-y-4">
+        {filteredEnquiries.length > 0 ? (
+          filteredEnquiries.map((enquiry) => (
+            <Card key={enquiry.id}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <CardTitle className="text-lg">{enquiry.name}</CardTitle>
+                    <div className="mt-2 flex flex-wrap gap-2 text-sm text-gray-600">
+                      <span className="flex items-center gap-1">
+                        <Mail className="h-4 w-4" />
+                        {enquiry.email}
+                      </span>
+                      {enquiry.phone && (
+                        <span className="flex items-center gap-1">
+                          <Phone className="h-4 w-4" />
+                          {enquiry.phone}
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        {new Date(enquiry.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge className={getStatusColor(enquiry.status)}>
+                      {enquiry.status}
+                    </Badge>
+                    <Badge className={getTypeColor(enquiry.type)}>
+                      {getTypeLabel(enquiry.type)}
+                    </Badge>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {enquiry.company && (
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">Company:</span>
+                      <span className="ml-2 text-sm text-gray-600">{enquiry.company}</span>
+                    </div>
+                  )}
+                  {enquiry.productName && (
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">Product:</span>
+                      <span className="ml-2 text-sm text-gray-600">{enquiry.productName}</span>
+                    </div>
+                  )}
+                  {enquiry.casNumber && (
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">CAS Number:</span>
+                      <span className="ml-2 text-sm text-gray-600">{enquiry.casNumber}</span>
+                    </div>
+                  )}
+                  {enquiry.rawKit && (
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">Raw/Kit:</span>
+                      <span className="ml-2 text-sm text-gray-600">{enquiry.rawKit}</span>
+                    </div>
+                  )}
+                  {enquiry.therapeutic && (
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">Therapeutic:</span>
+                      <span className="ml-2 text-sm text-gray-600">{enquiry.therapeutic}</span>
+                    </div>
+                  )}
+                  {enquiry.quantity && (
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">Quantity:</span>
+                      <span className="ml-2 text-sm text-gray-600">{enquiry.quantity}</span>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-1">Message:</p>
+                    <p className="text-sm text-gray-600 whitespace-pre-wrap bg-gray-50 p-3 rounded">
+                      {enquiry.message || "No message provided"}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 pt-2">
+                    {enquiry.status === "pending" && (
+                      <Button size="sm" onClick={() => updateStatus(enquiry.id, "contacted")}>
+                        Mark as Contacted
+                      </Button>
+                    )}
+                    {enquiry.status === "contacted" && (
+                      <Button size="sm" variant="outline" onClick={() => updateStatus(enquiry.id, "resolved")}>
+                        Mark as Resolved
+                      </Button>
+                    )}
+                    {enquiry.status === "resolved" && (
+                      <Button size="sm" variant="ghost" onClick={() => updateStatus(enquiry.id, "pending")}>
+                        Reopen
+                      </Button>
+                    )}
+                    <Button size="sm" variant="ghost" asChild>
+                      <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${enquiry.email}`} target="_blank" rel="noopener noreferrer">Reply via Email</a>
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Card>
+            <CardContent className="p-8 text-center">
+              <p className="text-gray-500">No enquiries found matching the current filters.</p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
+  )
+}

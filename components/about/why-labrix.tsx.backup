@@ -1,0 +1,104 @@
+"use client"
+
+import Image from "next/image"
+import Link from "next/link"
+
+export function WhyLabrix() {
+  return (
+    <section className="py-16 md:py-24 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left: Content */}
+          <div className="space-y-6">
+            <div>
+              <span
+                className="inline-block px-6 py-2 border-2 rounded-full text-sm font-medium uppercase tracking-wide mb-4"
+                style={{ borderColor: "#4384C5", color: "#4384C5" }}
+              >
+                WHY kkengineering
+              </span>
+              <h2 className="font-light mb-6" style={{ color: "#4384C5", fontSize: "36px", fontFamily: "Poppins" }}>
+                WHY LABRIX FOR TRUSTED RESEARCH SOLUTIONS
+              </h2>
+            </div>
+
+            <p className="leading-relaxed" style={{ color: "#656565", fontSize: "14px", fontFamily: "Poppins" }}>
+              Our demand for a dynamic and technically competent chemical trading company emerged as pharmaceutical
+              companies seek the most efficient and cost-effective ways to source high-quality APIs and intermediates.
+              We understand the critical importance of reliable supply chains and the need for partners who can deliver
+              on their promises, allowing our clients the freedom to focus on their core business.
+            </p>
+
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-lg mb-2" style={{ color: "#1a2847" }}>
+                  Extensive Sourcing Network
+                </h4>
+                <p style={{ color: "#656565", fontSize: "14px", fontFamily: "Poppins" }}>
+                  Trusted by over 50 leading APIs, our molecules, intermediates, research compounds, and specialty
+                  chemicals.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-lg mb-2" style={{ color: "#1a2847" }}>
+                  Global Sourcing Network
+                </h4>
+                <p style={{ color: "#656565", fontSize: "14px", fontFamily: "Poppins" }}>
+                  Strong partnerships across the US, India, China, Japan, and Republic with in-depth supplier
+                  evaluations ensuring the best pricing advantages.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-lg mb-2" style={{ color: "#1a2847" }}>
+                  Guaranteed Reliability
+                </h4>
+                <p style={{ color: "#656565", fontSize: "14px", fontFamily: "Poppins" }}>
+                  Any quality issue at our compliance is resolved by taking back the material and providing a full
+                  refund.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-lg mb-2" style={{ color: "#1a2847" }}>
+                  Commitment to Delivery
+                </h4>
+                <p style={{ color: "#656565", fontSize: "14px", fontFamily: "Poppins" }}>
+                  Frequent shipment updates, proactive tracking, and continuous communication to ensure a smooth supply
+                  chain.
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-4">
+              <Link href="/contact">
+                <button
+                  className="px-8 py-3 text-white font-medium rounded-full transition-colors"
+                  style={{ backgroundColor: "#1a2847" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#4384C5")}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1a2847")}
+                >
+                  CONTACT US
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Right: Image */}
+          <div className="relative">
+            <div className="rounded-3xl overflow-hidden shadow-lg">
+              <Image
+                src="/images/scientist-with-test-tube.png"
+                alt="Research scientist"
+                width={500}
+                height={600}
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

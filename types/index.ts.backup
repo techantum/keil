@@ -1,0 +1,219 @@
+export interface Service {
+  id: string
+  title: string
+  subtitle: string
+  description: string
+  icon: string
+  image: string
+  slug: string
+  features: string[]
+  featured?: boolean
+  createdAt: Date
+  updatedAt: Date
+  shortDescription?: string // Add this for frontend compatibility
+}
+}
+
+export interface Product {
+  id: string
+  name: string
+  slug: string
+  description: string
+  casNumber: string
+  hsCode?: string
+  category: string
+  subcategory?: string
+  molecularFormula?: string
+  molecularWeight?: string
+  inStock: boolean
+  specifications?: {
+    purity?: string
+    appearance?: string
+    solubility?: string
+    storage?: string
+  }
+  therapeuticArea?: string
+  apiType?: string
+  image?: string
+  applications?: string[]
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface Category {
+  id: string
+  name: string
+  slug: string
+  description: string
+  icon?: string
+}
+
+export interface SubCategory {
+  id: string
+  name: string
+  slug: string
+  description: string
+  categoryId: string
+  category?: Category
+}
+
+export interface Enquiry {
+  id: string
+  type: "general" | "product" | "general_product" | "bulk" | "service"
+  name: string
+  email: string
+  phone?: string
+  company?: string
+  productName?: string
+  casNumber?: string
+  rawKit?: string
+  therapeutic?: string
+  quantity?: string
+  message: string
+  status: "pending" | "contacted" | "resolved"
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface HomePageContent {
+  id: string
+  hero: {
+    title: string
+    description: string
+    primaryButtonText: string
+    primaryButtonLink: string
+    secondaryButtonText: string
+    secondaryButtonLink: string
+    backgroundImage: string
+  }
+  stats: {
+    yearsExperience: number
+    yearsExperienceLabel: string
+    productsDelivered: number
+    productsDeliveredLabel: string
+    satisfiedClients: number
+    satisfiedClientsLabel: string
+    countriesServed: number
+    countriesServedLabel: string
+  }
+  aboutPreview: {
+    badge: string
+    title: string
+    description: string
+    features: Array<{
+      icon: string
+      title: string
+      description: string
+    }>
+    primaryButtonText: string
+    secondaryButtonText: string
+  }
+  process: {
+    title: string
+    subtitle: string
+    steps: Array<{
+      number: string
+      title: string
+      description: string
+      icon: string
+    }>
+  }
+  updatedAt: Date
+}
+
+export interface AboutPageContent {
+  id: string
+  hero: {
+    backgroundImage: string
+  }
+  intro: {
+    badge: string
+    title: string
+    description: string
+    features: Array<{
+      icon: string
+      title: string
+      description: string
+    }>
+  }
+  vision: {
+    badge: string
+    mainHeading: string
+    visionTitle: string
+    visionDescription: string
+    visionImage: string
+  }
+  mission: {
+    missionTitle: string
+    missionDescription: string
+    missionImage: string
+  }
+  whyUs: {
+    badge: string
+    title: string
+    description: string
+    features: Array<{
+      icon: string
+      title: string
+      description: string
+    }>
+  }
+  updatedAt: Date
+}
+
+export interface ContactPageContent {
+  id: string
+  hero: {
+    title: string
+    subtitle: string
+    backgroundImage: string
+  }
+  contactInfo: {
+    email: {
+      title: string
+      description: string
+      value: string
+    }
+    phone: {
+      title: string
+      description: string
+      value: string
+    }
+    office: {
+      title: string
+      address: string
+    }
+  }
+  updatedAt: Date
+}
+
+export interface FooterContent {
+  id: string
+  logo: string
+  companyInfo: string
+  productLinks: Array<{
+    name: string
+    href: string
+  }>
+  aboutLinks: Array<{
+    name: string
+    href: string
+  }>
+  socialMedia: {
+    facebook?: string
+    twitter?: string
+    youtube?: string
+    linkedin?: string
+  }
+  newsletter: {
+    heading: string
+    placeholder: string
+  }
+  contact: {
+    location: string
+    phone: string
+    email: string
+  }
+  copyright: string
+  updatedAt: Date
+}

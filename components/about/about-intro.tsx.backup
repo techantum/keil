@@ -1,0 +1,151 @@
+import Image from "next/image"
+
+export function AboutIntro() {
+  return (
+    <section className="py-16 md:py-24 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          {/* Left: Image */}
+          <div className="relative">
+            <div className="rounded-3xl overflow-hidden shadow-lg">
+              <Image
+                src="/images/scientist-with-microscope.png"
+                alt="Scientist in laboratory"
+                width={500}
+                height={500}
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+
+          {/* Right: Content */}
+          <div className="space-y-6">
+            <div>
+              <div className="inline-block border border-gray-400 rounded-full px-6 py-2 mb-4">
+                <p
+                  className="text-sm font-medium uppercase tracking-wide"
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    color: "#656565",
+                  }}
+                >
+                  ABOUT US
+                </p>
+              </div>
+              <h2
+                className="font-light mb-6"
+                style={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontSize: "36px",
+                  fontWeight: 300,
+                  color: "#4384C5",
+                  lineHeight: "1.2",
+                }}
+              >
+                PIONEERING INNOVATION IN DRUG DISCOVERY
+              </h2>
+            </div>
+
+            <p
+              className="leading-relaxed"
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#656565",
+              }}
+            >
+              KK Engineeringtech is a leading pharmaceutical and chemical company with a strong foundation in the
+              global pharma and chemical value chain. We specialize in the development, manufacturing, import/export,
+              and supply of high-quality APIs and India, delivering solutions that consistently meet the highest
+              standards of quality and compliance.
+            </p>
+
+            <p
+              className="leading-relaxed"
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#656565",
+              }}
+            >
+              Our strength lies in our people, a team of seasoned professionals with extensive experience across the
+              pharmaceutical and chemical industries. We are committed to driving value, fostering trust, and creating
+              partnerships that empower our clients to deliver safe, effective, and innovative pharmaceutical products
+              to the market.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+            <div className="mb-4">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <Image src="/images/icon-quality.png" alt="Reliability" width={32} height={32} />
+              </div>
+            </div>
+            <h4 className="font-semibold text-lg mb-2" style={{ color: "#1a2847" }}>
+              Reliability
+            </h4>
+            <p
+              className="leading-relaxed"
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#656565",
+              }}
+            >
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque perspiciatis.
+            </p>
+          </div>
+
+          <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+            <div className="mb-4">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <Image src="/images/icon-network.png" alt="Sustainability" width={32} height={32} />
+              </div>
+            </div>
+            <h4 className="font-semibold text-lg mb-2" style={{ color: "#1a2847" }}>
+              Sustainability
+            </h4>
+            <p
+              className="leading-relaxed"
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#656565",
+              }}
+            >
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque perspiciatis.
+            </p>
+          </div>
+
+          <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+            <div className="mb-4">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <Image src="/images/icon-medicines.png" alt="Quality & Cost-Effectiveness" width={32} height={32} />
+              </div>
+            </div>
+            <h4 className="font-semibold text-lg mb-2" style={{ color: "#1a2847" }}>
+              Quality & Cost-Effectiveness
+            </h4>
+            <p
+              className="leading-relaxed"
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#656565",
+              }}
+            >
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque perspiciatis.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,411 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Plus, Search, Edit, Trash2, Upload, X } from "lucide-react"
+import type { Service } from "@/types"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { useToastContext } from "@/components/providers/toast-provider"
+
+export default function AdminServicesPage() {
+  const { success, error } = useToastContext()
+  const [services, setServices] = useState<Service[]>([])
+  const [search, setSearch] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [editingService, setEditingService] = useState<Service | null>(null)
+  const [uploading, setUploading] = useState<{ icon: boolean; image: boolean }>({
+    icon: false,
+    image: false,
+  })
+  const [formData, setFormData] = useState({
+    title: "",
+    subtitle: "",
+    description: "",
+    slug: "",
+    icon: "",
+    image: "",
+  })
+
+  useEffect(() => {
+    fetchServices()
+  }, [])
+
+  const fetchServices = async () => {
+    try {
+      const response = await fetch("/api/admin/services")
+      const data = await response.json()
+      setServices(data)
+    } catch (err) {
+      error("Failed to fetch services", "Please try refreshing the page")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "")
+  }
+
+  const handleAddService = () => {
+    setEditingService(null)
+    setFormData({
+      title: "",
+      subtitle: "",
+      description: "",
+      slug: "",
+      icon: "",
+      image: "",
+    })
+    setDialogOpen(true)
+  }
+
+  const handleEditService = (service: Service) => {
+    setEditingService(service)
+    setFormData({
+      title: service.title,
+      subtitle: service.subtitle || "",
+      description: service.description,
+      slug: service.slug,
+      icon: service.icon || "",
+      image: service.image || "",
+    })
+    setDialogOpen(true)
+  }
+
+  const handleUpload = async (file: File, type: "icon" | "image") => {
+    setUploading(prev => ({ ...prev, [type]: true }))
+    
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("type", type)
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setFormData(prev => ({ ...prev, [type]: result.url }))
+        success(`${type.charAt(0).toUpperCase() + type.slice(1)} uploaded successfully`, "Image has been uploaded and ready to use")
+      } else {
+        error(`Failed to upload ${type}`, result.error || "Please try again with a different image")
+      }
+    } catch (err) {
+      error(`Failed to upload ${type}`, "Please check your connection and try again")
+    } finally {
+      setUploading(prev => ({ ...prev, [type]: false }))
+    }
+  }
+
+  const handleSaveService = async () => {
+    setSaving(true)
+    try {
+      const url = editingService ? `/api/admin/services/${editingService.id}` : "/api/admin/services"
+      const method = editingService ? "PATCH" : "POST"
+
+      // Generate slug if not provided
+      const serviceData = {
+        ...formData,
+        slug: formData.slug || generateSlug(formData.title),
+      }
+
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(serviceData),
+      })
+
+      if (response.ok) {
+        setDialogOpen(false)
+        fetchServices()
+        success(
+          editingService ? "Service updated successfully" : "Service created successfully",
+          `${formData.title} has been ${editingService ? "updated" : "added to"} your services`
+        )
+      } else {
+        const errorData = await response.json()
+        error("Failed to save service", errorData.error || "Please check your input and try again")
+      }
+    } catch (err) {
+      error("Failed to save service", "Please check your connection and try again")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleDelete = async (id: string) => {
+    const serviceName = services.find(s => s.id === id)?.title || "service"
+    
+    if (!confirm(`Are you sure you want to delete "${serviceName}"? This action cannot be undone.`)) return
+
+    try {
+      const response = await fetch(`/api/admin/services/${id}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        setServices(services.filter((s) => s.id !== id))
+        success("Service deleted successfully", `${serviceName} has been removed from your services`)
+      } else {
+        error("Failed to delete service", "Please try again")
+      }
+    } catch (err) {
+      error("Failed to delete service", "Please check your connection and try again")
+    }
+  }
+
+  const filteredServices = services.filter((s) =>
+    s.title.toLowerCase().includes(search.toLowerCase()) ||
+    s.description.toLowerCase().includes(search.toLowerCase())
+  )
+
+  if (loading) {
+    return <div className="p-8">Loading...</div>
+  }
+
+  return (
+    <div className="p-8">
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Services</h1>
+          <p className="text-gray-600 mt-1">Manage your service offerings</p>
+        </div>
+        <Button onClick={handleAddService}>
+          <Plus className="mr-2 h-4 w-4" />
+          Add Service
+        </Button>
+      </div>
+
+      <div className="mb-6">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Input
+            placeholder="Search services..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-4">
+        {filteredServices.map((service) => (
+          <Card key={service.id}>
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div className="flex items-start gap-4">
+                  {service.icon && (
+                    <img src={service.icon} alt="" className="w-12 h-12 object-contain" />
+                  )}
+                  <div>
+                    <CardTitle className="text-lg">{service.title}</CardTitle>
+                    {service.subtitle && (
+                      <p className="text-sm text-gray-600 mt-1">{service.subtitle}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={() => handleEditService(service)}>
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => handleDelete(service.id)}>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div>
+                  <span className="text-sm font-medium text-gray-700">Slug:</span>
+                  <span className="ml-2 text-sm text-gray-600">{service.slug}</span>
+                </div>
+                <div>
+                  <span className="text-sm font-medium text-gray-700">Description:</span>
+                  <p className="text-sm text-gray-600 mt-1">{service.description}</p>
+                </div>
+                {service.image && (
+                  <div className="mt-4">
+                    <div className="mt-4"><img src={service.image} alt={service.title} className="w-24 h-16 object-cover rounded border" /></div>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{editingService ? "Edit Service" : "Add New Service"}</DialogTitle>
+            <DialogDescription>
+              {editingService ? "Update the service details below" : "Enter the details for the new service"}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="title" className="mb-2 block">Service Title*</Label>
+                <Input
+                  id="title"
+                  value={formData.title}
+                  onChange={(e) => {
+                    const title = e.target.value
+                    setFormData({ 
+                      ...formData, 
+                      title,
+                      slug: formData.slug || generateSlug(title)
+                    })
+                  }}
+                  placeholder="Enter service title"
+                />
+              </div>
+              <div>
+                <Label htmlFor="subtitle" className="mb-2 block">Subtitle</Label>
+                <Input
+                  id="subtitle"
+                  value={formData.subtitle}
+                  onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+                  placeholder="Enter service subtitle"
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="slug" className="mb-2 block">URL Slug*</Label>
+              <Input
+                id="slug"
+                value={formData.slug}
+                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                placeholder="service-url-slug"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="description" className="mb-2 block">Description*</Label>
+              <Textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                placeholder="Enter service description"
+                rows={4}
+              />
+            </div>
+
+            {/* Icon Upload */}
+            <div>
+              <Label>Service Icon</Label>
+              <div className="mt-2 space-y-4">
+                {formData.icon && (
+                  <div className="flex items-center gap-4">
+                    <img src={formData.icon} alt="Service icon" className="w-16 h-16 object-contain border rounded" />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setFormData({ ...formData, icon: "" })}
+                    >
+                      <X className="h-4 w-4 mr-1" />
+                      Remove Icon
+                    </Button>
+                  </div>
+                )}
+                <div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleUpload(file, "icon")
+                    }}
+                    className="hidden"
+                    id="icon-upload"
+                  />
+                  <label htmlFor="icon-upload">
+                    <Button type="button" variant="outline" disabled={uploading.icon} asChild>
+                      <span>
+                        <Upload className="h-4 w-4 mr-2" />
+                        {uploading.icon ? "Uploading..." : "Upload Icon"}
+                      </span>
+                    </Button>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Image Upload */}
+            <div>
+              <Label>Service Image</Label>
+              <div className="mt-2 space-y-4">
+                {formData.image && (
+                  <div className="space-y-2">
+                    <img src={formData.image} alt="Service" className="w-24 h-16 object-cover rounded border" />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setFormData({ ...formData, image: "" })}
+                    >
+                      <X className="h-4 w-4 mr-1" />
+                      Remove Image
+                    </Button>
+                  </div>
+                )}
+                <div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleUpload(file, "image")
+                    }}
+                    className="hidden"
+                    id="image-upload"
+                  />
+                  <label htmlFor="image-upload">
+                    <Button type="button" variant="outline" disabled={uploading.image} asChild>
+                      <span>
+                        <Upload className="h-4 w-4 mr-2" />
+                        {uploading.image ? "Uploading..." : "Upload Image"}
+                      </span>
+                    </Button>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveService} disabled={saving}>
+              {saving ? "Saving..." : editingService ? "Update Service" : "Create Service"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
