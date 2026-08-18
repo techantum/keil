@@ -357,7 +357,7 @@ export default function EditLandingPageAdmin() {
 
           {(page.redirect?.mode || "all_pages_active") === "any_slug" && (
             <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-800">
-              Warning: every public URL (except /lp, /admin, /api) will redirect to{" "}
+              Warning: every public URL (except /lp, /p, /admin, /api) will redirect to{" "}
               <strong>/lp/{page.slug}</strong>. Use only when this should be the whole site.
             </div>
           )}

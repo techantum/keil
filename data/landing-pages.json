@@ -14,7 +14,7 @@
         "title": "ENGINEERED EC SHEDS FOR MODERN POULTRY FARMING",
         "subtitle": "First End-to-End EC Shed Solution Provider in AP & Telangana. Among India's Finest Poultry Infrastructure Partners.",
         "description": "KEIL delivers engineered EC shed solutions with complete in-house engineering, manufacturing, installation, commissioning and turnkey support for high-performance poultry operations.\n\nWe build better farms that deliver better control, better performance and better returns – every day.",
-        "image": "/uploads/images/1786616886473_15957.jpg",
+        "image": "/uploads/images/1786620003008_ChatGPT_Image_Aug_13__2026__04_08_02_PM.png",
         "badgeText": "",
         "buttonText": "Get a Project Consultation",
         "buttonLink": "",
@@ -445,7 +445,7 @@
       "keywords": []
     },
     "createdAt": "2026-08-12T09:16:15.059Z",
-    "updatedAt": "2026-08-13T10:56:35.380Z",
+    "updatedAt": "2026-08-13T12:04:20.568Z",
     "redirect": {
       "mode": "any_slug",
       "paths": []
@@ -455,8 +455,128 @@
       "footerLogo": "/uploads/images/1786528279602_KEIL_LOGO_WITHOUT_CAPTION__1_.png",
       "favicon": "/uploads/icons/1786528341951_fav.png",
       "ogImage": "/uploads/images/1786528344789_fav.png",
+      "navbarPhone": "+919059930505",
       "primaryColor": "#2B3990",
       "secondaryColor": "#E31C23"
+    },
+    "footer": {
+      "id": "footer",
+      "settings": {
+        "enabled": true
+      },
+      "productLinksSection": {
+        "enabled": true,
+        "title": "Our Solutions"
+      },
+      "aboutLinksSection": {
+        "enabled": true,
+        "title": "Quick Links"
+      },
+      "resourcesLinksSection": {
+        "enabled": true,
+        "title": "Resources"
+      },
+      "newsletterSection": {
+        "enabled": false
+      },
+      "contactSection": {
+        "enabled": true,
+        "title": "Contact Us"
+      },
+      "socialSection": {
+        "enabled": true
+      },
+      "logo": "",
+      "companyInfo": "KEIL (Konya Engineering & Infrastructure Private Limited) — Building Better Farms. Growing Together.",
+      "productLinks": [
+        {
+          "name": "EC Poultry Sheds",
+          "href": "#solutions"
+        },
+        {
+          "name": "PUF Insulated Panels",
+          "href": "#solutions"
+        },
+        {
+          "name": "Ventilation Systems",
+          "href": "#solutions"
+        },
+        {
+          "name": "Farm Automation",
+          "href": "#solutions"
+        },
+        {
+          "name": "Turnkey Projects",
+          "href": "#solutions"
+        }
+      ],
+      "aboutLinks": [
+        {
+          "name": "Home",
+          "href": "/"
+        },
+        {
+          "name": "About Us",
+          "href": "/about"
+        },
+        {
+          "name": "Solutions",
+          "href": "#solutions"
+        },
+        {
+          "name": "Why KEIL",
+          "href": "#why-keil"
+        },
+        {
+          "name": "Projects",
+          "href": "/gallery"
+        },
+        {
+          "name": "Contact Us",
+          "href": "/contact"
+        }
+      ],
+      "resourcesLinks": [
+        {
+          "name": "Brochures",
+          "href": "/gallery"
+        },
+        {
+          "name": "Case Studies",
+          "href": "/gallery"
+        },
+        {
+          "name": "Project Gallery",
+          "href": "/gallery"
+        },
+        {
+          "name": "FAQs",
+          "href": "/contact"
+        }
+      ],
+      "legalLinks": [
+        {
+          "name": "Terms & Conditions",
+          "href": "/contact"
+        },
+        {
+          "name": "Privacy Policy",
+          "href": "/contact"
+        }
+      ],
+      "socialMedia": {},
+      "newsletter": {
+        "heading": "Stay Updated",
+        "headingTag": "p",
+        "placeholder": "Enter your email"
+      },
+      "contact": {
+        "location": "Hyderabad, Telangana, India",
+        "phone": "90505 40505",
+        "email": "info@keil.in"
+      },
+      "copyright": "© 2026 Konya Engineering & Infrastructure Private Limited. All rights reserved.",
+      "updatedAt": "2026-08-13T11:55:30.198Z"
     }
   }
 ]

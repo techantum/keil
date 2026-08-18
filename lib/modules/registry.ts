@@ -104,6 +104,7 @@ export const MODULES: Record<ModuleKey, ModuleDefinition> = {
       "/admin/cms",
       "/admin/cms/home",
       "/admin/cms/landing-pages",
+      "/admin/cms/design-previews",
       "/admin/cms/about",
       "/admin/cms/contact",
       "/admin/cms/footer",

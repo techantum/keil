@@ -83,9 +83,11 @@ export function resolveLandingRedirect(
 ): string | null {
   const path = normalizePath(pathname);
 
-  // Never redirect landing, admin, api, or asset-like paths
+  // Never redirect landing, design previews, admin, api, or asset-like paths
   if (
     path.startsWith("/lp") ||
+    path === "/p" ||
+    path.startsWith("/p/") ||
     path.startsWith("/admin") ||
     path.startsWith("/api") ||
     path.startsWith("/_next")

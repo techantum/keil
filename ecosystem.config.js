@@ -12,6 +12,8 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         PORT: 6001,
+        USE_POSTGRES: "true",
+        DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/cms_starter",
         ADMIN_USERNAME: "admin",
         ADMIN_PASSWORD: "admin123",
         SUPER_ADMIN_USERNAME: "superadmin",

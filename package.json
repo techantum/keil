@@ -8,7 +8,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
-    "db:up": "docker compose up -d postgres",
+    "db:up": "pg_isready -h 127.0.0.1 -p 5432 >/dev/null 2>&1 || docker compose up -d postgres",
     "db:migrate": "npx tsx scripts/run-migrations.ts",
     "db:seed:landing": "node scripts/build-landing-seed-sql.mjs && node scripts/apply-landing-seed.cjs",
     "db:setup": "npm run db:up && npm run db:migrate && npm run db:seed:landing",

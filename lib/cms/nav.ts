@@ -11,6 +11,7 @@ export const CMS_ADMIN_BASE = "/admin/cms";
 export const CMS_ADMIN_NAV: CmsAdminNavItem[] = [
   { name: "Home", href: "/admin/cms/home", moduleKey: "content" },
   { name: "Landing Pages", href: "/admin/cms/landing-pages", moduleKey: "content" },
+  { name: "Design Previews", href: "/admin/cms/design-previews", moduleKey: "content" },
   { name: "About", href: "/admin/cms/about", moduleKey: "content" },
   { name: "Contact", href: "/admin/cms/contact", moduleKey: "content" },
   { name: "Footer", href: "/admin/cms/footer", moduleKey: "content" },
